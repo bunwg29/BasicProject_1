@@ -1,0 +1,19 @@
+.shadow {
+    -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0), 10, 0, 0, 10);
+}
+
+.background-color {
+    -fx-background-color: #191919;
+    -fx-border-radius: 20;
+    -fx-border-style: solid;
+    -fx-border-color: #FFFFFF;
+}
+
+.button-style {
+    -fx-background-color: #FD0808;
+    -fx-border-radius: 20;
+    -fx-border-style: none;
+}
+.box-radius {
+    -fx-border-radius: 20;
+}

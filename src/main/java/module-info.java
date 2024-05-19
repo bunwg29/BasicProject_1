@@ -1,12 +1,17 @@
-module org.example.final_project {
+module org.example.source {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
+    requires java.sql;
 
 
     opens org.example.source.view to javafx.fxml;
     exports org.example.source.view;
+    opens org.example.source.model;
+    exports org.example.source.model to javafx.fxml;
     exports org.example.source.controller;
     opens org.example.source.controller to javafx.fxml;
-//    exports org.example.final_project.View;
-//    opens org.example.final_project.View to javafx.fxml;
+    opens org.example.source.database;
+    opens org.example.source.DAO;
+    exports org.example.source.database to javafx.fxml;
 }
