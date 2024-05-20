@@ -22,9 +22,11 @@ public class blogController {
     @FXML
     private HBox boxProgrammingBook;
 
+    // This is a function set data that is got from database into blog fxml file
     public void setData(blogModel blogModel) {
         blogName.setText(blogModel.getBlogName());
         blogImage.setImage(new Image(blogModel.getBlogImageLink()));
+        // Set shadow for blog card
         Rectangle clip = new Rectangle();
         clip.setWidth(200);
         clip.setHeight(170);

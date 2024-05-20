@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class blogDataDAO implements BlogDAO<blogModel>, Runnable{
     ArrayList<blogModel> blogDatabase = new ArrayList<blogModel>();
     blogModel blogModel = null;
+
+    // Create thread get data of blog content from database
     @Override
     public ArrayList<blogModel> getBlogData() {
         Thread thread = new Thread(this);
@@ -19,6 +21,8 @@ public class blogDataDAO implements BlogDAO<blogModel>, Runnable{
         return blogDatabase;
     }
 
+
+    // This is overriding of Runnable class
     @Override
     public void run() {
         try {

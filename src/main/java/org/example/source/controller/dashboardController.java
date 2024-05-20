@@ -18,12 +18,14 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class dashboardController implements Initializable {
+    // Variables for fxml and controller service, connect to sever file
     @FXML
     private Button button_Home;
 
@@ -35,14 +37,28 @@ public class dashboardController implements Initializable {
 
     @FXML
     private HBox hbox_Blog;
-    private List<bookModel> books;
-    private List<blogModel> blogs;
 
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 8080;
 
+    // Connect to sever function
+    public boolean connect() {
+        try (Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
+            System.out.println("Connected to server: " + clientSocket.getRemoteSocketAddress());
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error connecting to server: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Controller for action on dashboard
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        blogs = new ArrayList<>(blog());
-        books = new ArrayList<>(book());
+
+        // Visible for home in dashboard
+        List<blogModel> blogs = new ArrayList<>(blog());
+        List<bookModel> books = new ArrayList<>(book());
         int col = 0;
         int row = 1;
         try {
@@ -71,6 +87,7 @@ public class dashboardController implements Initializable {
         }catch(IOException e){
             e.printStackTrace();
         }
+        // Set action for button of home page in dashboard
         button_Home.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -78,6 +95,8 @@ public class dashboardController implements Initializable {
             }
         });
     }
+
+    // Functions of get data from database are served in home dashboard
     public ArrayList<bookModel> book() {
         bookDataDAO bookDataDAO = new bookDataDAO();
         return bookDataDAO.getBookData();

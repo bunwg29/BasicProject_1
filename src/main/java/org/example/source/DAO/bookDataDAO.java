@@ -10,12 +10,14 @@ public class bookDataDAO implements BookDAO<bookModel>, Runnable {
     bookModel book = null;
     ArrayList<bookModel> bookDatabase = new ArrayList<bookModel>();
 
+    // Create thread get data of book content from database
     @Override
     public ArrayList<bookModel> getBookData() {
         Thread thread = new Thread(this);
         thread.run();
         return bookDatabase;
     }
+    // This is overriding of Runnable class
     @Override
     public void run() {
         try {
@@ -36,6 +38,4 @@ public class bookDataDAO implements BookDAO<bookModel>, Runnable {
             e.printStackTrace();
         }
     }
-
-
 }

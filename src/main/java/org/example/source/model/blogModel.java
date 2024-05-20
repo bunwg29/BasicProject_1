@@ -1,5 +1,7 @@
 package org.example.source.model;
 
+
+// class use for set data of blog content each variable corresponding in table of database
 public class blogModel {
     private String blogName;
     private String blogLink;

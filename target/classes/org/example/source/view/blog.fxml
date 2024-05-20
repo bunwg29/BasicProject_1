@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="boxProgrammingBook" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="427.0" spacing="15.0" style="-fx-border-radius: 20px;" stylesheets="@../../../../css/programmingBook.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.blogController">
+<HBox fx:id="boxProgrammingBook" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="427.0" spacing="15.0" style="-fx-border-radius: 20px;" stylesheets="@../../../../css/blogCardDashboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.blogController">
    <children>
       <ImageView fx:id="blogImage" fitHeight="170.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -20,7 +20,7 @@
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <VBox prefHeight="184.0" prefWidth="252.0" spacing="15.0" styleClass="shadow" stylesheets="@../../../../css/programmingBook.css">
+      <VBox prefHeight="184.0" prefWidth="252.0" spacing="15.0" styleClass="shadow" stylesheets="@../../../../css/blogCardDashboard.css">
          <children>
             <Label fx:id="blogName" prefHeight="44.0" prefWidth="310.0" text="JAVA BASIC" textFill="WHITE">
                <font>

@@ -20,6 +20,7 @@ public class bookController{
     @FXML
     private Label bookQuantity;
 
+    // This is a function set data that is got from database into book fxml file
     public void setData(bookModel book){
         bookId.setText(book.getBookId());
         bookImage.setImage(new Image(book.getImageSrc()));

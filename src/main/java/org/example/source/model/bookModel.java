@@ -1,5 +1,6 @@
 package org.example.source.model;
 
+// class use for set data of book content each variable corresponding in table of database
 public class bookModel {
     private String bookId;
     private String imageSrc;

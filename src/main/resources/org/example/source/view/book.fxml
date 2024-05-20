@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="180.0" stylesheets="@../../../../css/programmingBook.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.bookController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="309.0" prefWidth="180.0" stylesheets="@../../../../css/blogCardDashboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.bookController">
    <children>
       <Label fx:id="bookId" text="ID" textFill="WHITE">
          <font>
             <Font name="Berlin Sans FB Bold" size="14.0" />
          </font>
       </Label>
-      <ImageView fx:id="bookImage" fitHeight="240.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="bookImage" fitHeight="177.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../imageBook/web_programming.jpg" />
          </image>
@@ -44,7 +44,7 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="45.0" prefWidth="158.0">
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" styleClass="button-style" stylesheets="@../../../../css/programmingBook.css" text="BORROW" textFill="WHITE">
+            <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" styleClass="button-style" stylesheets="@../../../../css/blogCardDashboard.css" text="BORROW" textFill="WHITE">
                <font>
                   <Font name="Berlin Sans FB" size="12.0" />
                </font>

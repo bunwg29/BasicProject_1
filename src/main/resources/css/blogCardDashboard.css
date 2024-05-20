@@ -1,3 +1,4 @@
+/* Set style rules for blog card in dashboard */
 .shadow {
     -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0), 10, 0, 0, 10);
 }
