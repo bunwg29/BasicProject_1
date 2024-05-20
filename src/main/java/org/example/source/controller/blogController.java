@@ -2,6 +2,7 @@ package org.example.source.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -12,12 +13,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.source.model.blogModel;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+
 public class blogController {
 
     @FXML
     private Label blogName;
     @FXML
     private ImageView blogImage;
+    @FXML
+    private Button visit_button;
 
     @FXML
     private HBox boxProgrammingBook;
@@ -40,5 +47,10 @@ public class blogController {
         blogImage.setClip(null);
         blogImage.setEffect(new DropShadow(20, Color.WHITE));
         blogImage.setImage(image);
+    }
+
+    // Method để trả về đối tượng visitButton
+    public Button getVisitButton() {
+        return visit_button;
     }
 }

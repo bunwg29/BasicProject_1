@@ -1,6 +1,6 @@
 package org.example.source.DAO;
 
-import  org.example.source.model.blogModel;
+import org.example.source.model.blogModel;
 import org.example.source.database.connectDatabase;
 
 import java.sql.Connection;
@@ -9,38 +9,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class blogDataDAO implements BlogDAO<blogModel>, Runnable{
-    ArrayList<blogModel> blogDatabase = new ArrayList<blogModel>();
-    blogModel blogModel = null;
+public class blogDataDAO implements BlogDAO<blogModel> {
 
-    // Create thread get data of blog content from database
     @Override
     public ArrayList<blogModel> getBlogData() {
-        Thread thread = new Thread(this);
-        thread.run();
-        return blogDatabase;
-    }
-
-
-    // This is overriding of Runnable class
-    @Override
-    public void run() {
-        try {
-            Connection con = connectDatabase.getConnection();
-            String sql = "SELECT * FROM blog";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+        ArrayList<blogModel> blogDatabase = new ArrayList<>();
+        try (Connection con = connectDatabase.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("SELECT * FROM blog")) {
 
             while (rs.next()) {
                 String blogName = rs.getString("blogName");
                 String blogLink = rs.getString("blogLink");
                 String blogImageLink = rs.getString("blogImageLink");
 
-                blogModel = new blogModel(blogName, blogLink, blogImageLink);
-                blogDatabase.add(blogModel);
+                blogModel blog = new blogModel(blogName, blogLink, blogImageLink);
+                blogDatabase.add(blog);
             }
-        }catch (SQLException e) {
+            return blogDatabase;
+        } catch (SQLException e) {
             e.printStackTrace();
+            return null; // Or throw a custom exception
         }
     }
 }

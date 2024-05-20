@@ -5,21 +5,14 @@ import org.example.source.model.bookModel;
 
 import java.sql.*;
 import java.util.ArrayList;
-
-public class bookDataDAO implements BookDAO<bookModel>, Runnable {
+//This class support handle get data of book content in application
+public class bookDataDAO implements BookDAO<bookModel> {
     bookModel book = null;
     ArrayList<bookModel> bookDatabase = new ArrayList<bookModel>();
 
-    // Create thread get data of book content from database
+    // Get book data content support for display book at home dashboard
     @Override
     public ArrayList<bookModel> getBookData() {
-        Thread thread = new Thread(this);
-        thread.run();
-        return bookDatabase;
-    }
-    // This is overriding of Runnable class
-    @Override
-    public void run() {
         try {
             Connection con = connectDatabase.getConnection();
             Statement st = con.createStatement();
@@ -37,5 +30,9 @@ public class bookDataDAO implements BookDAO<bookModel>, Runnable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return bookDatabase;
     }
+
+
+
 }

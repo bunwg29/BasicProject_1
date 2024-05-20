@@ -2,6 +2,16 @@
 .shadow {
     -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0), 10, 0, 0, 10);
 }
+.button-hover:hover {
+    -fx-background-color: #FFFFFF;
+}
+
+
+
+.button-background {
+    -fx-background-color: #5783db;
+    -fx-border-radius: 20;
+}
 
 .background-color {
     -fx-background-color: #191919;

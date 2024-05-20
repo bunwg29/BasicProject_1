@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="803.0" prefWidth="1335.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.dashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="902.0" prefWidth="1407.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.dashboardController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" spacing="20.0" styleClass="side-background" stylesheets="@../../../../css/dashboard.css" BorderPane.alignment="CENTER">
          <children>
@@ -182,7 +182,7 @@
                         <Font name="Berlin Sans FB" size="18.0" />
                      </font>
                   </Label>
-                  <ScrollPane layoutX="23.0" layoutY="47.0" prefHeight="223.0" prefWidth="1050.0" styleClass="side-background" stylesheets="@../../../../css/dashboard.css">
+                  <ScrollPane layoutX="23.0" layoutY="47.0" prefHeight="223.0" prefWidth="1127.0" styleClass="side-background" stylesheets="@../../../../css/dashboard.css">
                      <content>
                         <HBox fx:id="hbox_Blog" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="260.0" prefWidth="20000.0" spacing="10.0" styleClass="main-background" stylesheets="@../../../../css/dashboard.css">
                            <padding>
@@ -195,7 +195,7 @@
                         <Font name="Berlin Sans FB" size="18.0" />
                      </font>
                   </Label>
-                  <ScrollPane hbarPolicy="ALWAYS" layoutX="26.0" layoutY="336.0" prefHeight="406.0" prefWidth="1040.0" styleClass="transparent" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="ALWAYS" layoutX="26.0" layoutY="336.0" prefHeight="493.0" prefWidth="1123.0" styleClass="transparent" vbarPolicy="ALWAYS">
                      <content>
                         <GridPane fx:id="bookContainer" prefHeight="4.0" prefWidth="0.0" styleClass="background-color" stylesheets="@../../../../css/blogCardDashboard.css">
                           <rowConstraints>
