@@ -1,0 +1,129 @@
+USE library_project;
+-- CREATE COMMANDS
+
+CREATE TABLE `library_project`.`admin` (
+  `username` VARCHAR(10) NOT NULL,
+  `password` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`username`)
+);
+
+CREATE TABLE programmingBook (
+	bookId INT PRIMARY KEY,
+    bookImage VARCHAR (1000),
+    bookName VARCHAR (100),
+    bookQuantity INT
+);
+
+CREATE TABLE blog (
+	blogName VARCHAR(100) PRIMARY KEY,
+    blogLink VARCHAR(1000),
+    blogImageLink VARCHAR(1000)
+);
+
+CREATE TABLE `library_project`.`user` (
+  `id` INT UNSIGNED NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `library_project`.`borrowlist` (
+  `idborrow` INT AUTO_INCREMENT PRIMARY KEY,
+  `iduser` VARCHAR(45) NOT NULL,
+  `bookId` INT NOT NULL,
+  `databorrow` DATETIME NOT NULL
+);
+
+
+CREATE TABLE backBook (
+  borrowId INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(45) NOT NULL,
+  bookId INT NOT NULL,
+  bookName VARCHAR(100) NOT NULL,
+  dateBack DATETIME NOT NULL
+);
+
+CREATE TABLE borrowlistTotal(
+	idborrow INT AUTO_INCREMENT PRIMARY KEY,
+	usernameLogin VARCHAR(45) NOT NULL,
+	bookId INT NOT NULL,
+	databorrow DATETIME NOT NULL,
+    username VARCHAR(45) NOT NULL,
+    bookName VARCHAR (100)
+);
+
+CREATE TABLE backlistTotal(
+	idborrow INT PRIMARY KEY,
+    usernameLogin VARCHAR(45) NOT NULL,
+    bookId INT NOT NULL,
+    bookName VARCHAR (100),
+    databorrow DATETIME NOT NULL
+);
+
+ALTER TABLE backBook
+ADD CONSTRAINT FK_backBook_programmingBook FOREIGN KEY (bookId) REFERENCES programmingBook(bookId);
+
+ALTER TABLE borrowlist
+ADD CONSTRAINT FK_borrowlist_programmingBook FOREIGN KEY (bookId) REFERENCES programmingBook(bookId);
+
+ALTER TABLE `admin` ADD `role` VARCHAR(20) NOT NULL DEFAULT 'admin';
+ALTER TABLE `user` ADD `role` VARCHAR(20) NOT NULL DEFAULT 'user';
+
+ALTER TABLE `library_project`.`user`
+ADD UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE;
+
+--  SELECT COMMANDS
+SELECT * FROM programmingBook;
+SELECT * FROM blog;
+SELECT * FROM user;
+SELECT * FROM borrowlist;
+SELECT * FROM backBook;
+SELECT * FROM admin;
+SELECT * FROM borrowlistTotal;
+SELECT * FROM backlistTotal;
+
+SELECT
+    b.*,
+    u.name AS userName,
+    pb.bookName AS bookName
+FROM
+    borrowlist b
+JOIN
+    user u ON b.iduser = u.username
+JOIN
+    programmingBook pb ON b.bookId = pb.bookId;
+
+-- ADD DATA COMMANDS
+-- User
+INSERT INTO `library_project`.`user` (`id`, `username`, `email`, `password`, `name`) VALUES ('10001', 'test1', 'hello@gmail.com', 'Bun123456@', 'Trần Ka Bun');
+
+-- programmingBook
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1001', 'abc', 'Hello World', '100');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1002', 'def', 'Hello Python', '50');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1003', 'vfc', 'C++', '200');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1004', 'https://topdev.vn/blog/wp-content/uploads/2020/10/158778174896825064.jpg', 'Effective Java', '10');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1005', 'https://minhkhai.com.vn/hinhlon/216766.jpg', 'PHP & MySQL', '5');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1006', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1629202926i/43230197.jpg', 'Java Exercise', '10');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1007', 'https://itviec.com/blog/wp-content/uploads/2017/03/net-toan-tap-tap-5.jpg', 'ASP.NET & C#', '3');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1008', 'https://d1iv5z3ivlqga1.cloudfront.net/wp-content/uploads/2021/01/03172553/978-1-4302-0123-6.jpeg', 'CSS Mastery', '22');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1009', 'https://atpweb.vn/wp-content/uploads/2022/03/McFedries_WDPlayground_hires.png', 'Web Interactive', '5');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1010', 'https://cdn.codegym.vn/wp-content/uploads/2019/01/sach-hoc-lap-trinh-php-hieu-qua-nhat-8.jpg', 'PHP for Web', '9');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1011', 'https://cdn.codegym.vn/wp-content/uploads/2019/01/sach-hoc-lap-trinh-php-hieu-qua-nhat-6-1.jpg', 'PHP Security', '11');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1012', 'https://toidicodedao.files.wordpress.com/2017/12/9781593275846.jpg', 'Eloquent JS', '13');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1013', 'https://media.wiley.com/product_data/coverImage300/70/11189691/1118969170.jpg', 'SoftWare E Basic', '2');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1014', 'https://dksmart.vn/img/baiviet_upload/baiviet_38/20220312091149_tai%20lieu%20arduino%2012.png', 'Arduino Basic', '15');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1015', 'https://m.media-amazon.com/images/I/61NRpXmZR8S._AC_UF1000,1000_QL80_.jpg', 'React ', '11');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1016', 'https://m.media-amazon.com/images/I/71TbFmcvr4L._AC_UF1000,1000_QL80_.jpg', 'React & RNative', '10');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1017', 'https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-8176-5', 'Angular Pro', '3');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1018', 'https://m.media-amazon.com/images/I/613hsHAlYwL._AC_UF1000,1000_QL80_.jpg', 'OOP in Python', '13');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1019', 'https://m.media-amazon.com/images/I/51RXND+8SUL.jpg', 'Artificial Intelligence', '2');
+INSERT INTO `library_project`.`programmingBook` (`bookId`, `bookImage`, `bookName`, `bookQuantity`) VALUES ('1020', 'https://m.media-amazon.com/images/I/81n1+o12AHL._AC_UF1000,1000_QL80_.jpg', 'TS Beginner', '3');
+
+-- Blog
+INSERT INTO `library_project`.`blog` (`blogName`, `blogLink`, `blogImageLink`) VALUES ('CodeGym', 'https://codegym.vn/blog/', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlTPmcdG5e84GWy08ZTfjBKdZUNBa6UNjIkZCpAezizBru4dWOSbSjGqDm2_2ShqXw668&usqp=CAU');
+INSERT INTO `library_project`.`blog` (`blogName`, `blogLink`, `blogImageLink`) VALUES ('Vhblo', 'https://viblo.asia/newest', 'https://play-lh.googleusercontent.com/9I32j_nktWvfo7O85U3o5WQiP_rnwC7eeOic3s6p54g282obZ5yYHZw_yJXulzbLNy8');
+INSERT INTO `library_project`.`blog` (`blogName`, `blogLink`, `blogImageLink`) VALUES ('TopDev', 'https://topdev.vn/blog/?src=topdev.vn&medium=mainmenu', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqo8rz3nWcFoiYHCZdYpUnOUuEgQKVZPdHAfqn0njapA&s');
+INSERT INTO `library_project`.`blog` (`blogName`, `blogLink`, `blogImageLink`) VALUES ('Codelearn', 'https://codelearn.io/learning', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjCX0su74tJ2TwCqIAMgJeaH2v0qgFyzH-hZn7H3-IMg&s');
+INSERT INTO `library_project`.`blog` (`blogName`, `blogLink`, `blogImageLink`) VALUES ('Java Point', 'https://www.javatpoint.com/java-tutorial', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFsioSQiFRyIFBa6qK1D7Dlu3fcSl2ZijdILIv0DwPbg&s');
