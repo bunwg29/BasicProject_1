@@ -13,19 +13,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.source.model.blogModel;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
 
+// This class use for support get blogs data from database and set corresponding data
 public class blogController {
-
+    // Variables for .fxml file
     @FXML
     private Label blogName;
     @FXML
     private ImageView blogImage;
     @FXML
     private Button visit_button;
-
     @FXML
     private HBox boxProgrammingBook;
 
@@ -49,7 +46,7 @@ public class blogController {
         blogImage.setImage(image);
     }
 
-    // Method để trả về đối tượng visitButton
+    // Method return button to handle in dashboardController
     public Button getVisitButton() {
         return visit_button;
     }

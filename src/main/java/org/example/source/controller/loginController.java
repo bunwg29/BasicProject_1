@@ -19,18 +19,28 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class loginController implements Initializable {
+
+    // Variables for .fxml file
     @FXML
     private PasswordField password_txt;
     @FXML
     private TextField username_txt;
     @FXML
     private Button button_login;
-    private userDataDAO dao;
+    @FXML
+    private Button signUpButton;
 
+    // Variables for handle data
+    private userDataDAO dao;
     public static String usernameLogin;
+
+    // Handle event
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialization variables data
         dao = new userDataDAO();
+
+        // Set action for button_login where you click on it will check you username and password and login
         button_login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -71,6 +81,26 @@ public class loginController implements Initializable {
                    alert.setContentText("Username or Password is incorrect");
                    alert.show();
                }
+            }
+        });
+
+        // Set action for signUpButton where you click on it will check your input and handle
+        signUpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("User-create-account.fxml"));
+                Scene scene = null;
+                try {
+                    scene = new Scene(fxmlLoader.load(), 340, 500);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stage.setScene(scene);
+                stage.show();
+
+                Stage currentStage = (Stage) signUpButton.getScene().getWindow();
+                currentStage.close();
             }
         });
     }

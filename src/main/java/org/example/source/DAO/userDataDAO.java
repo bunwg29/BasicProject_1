@@ -1,5 +1,6 @@
 package org.example.source.DAO;
 
+import javafx.scene.control.Alert;
 import org.example.source.database.connectDatabase;
 
 import java.sql.*;
@@ -36,7 +37,11 @@ public class userDataDAO implements userDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Hoặc xử lý lỗi theo cách khác
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Something went wrong");
+            alert.setContentText("Something went wrong");
+            alert.showAndWait();
         }
         return userType;
     }
@@ -54,8 +59,34 @@ public class userDataDAO implements userDAO {
                 name.append(rs.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Something went wrong");
+            alert.setContentText("Something went wrong");
+            alert.showAndWait();
         }
         return name.toString();
+    }
+
+    @Override
+    public void insertUser(int id, String username, String email, String password, String name) {
+        String sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
+        try(Connection con = connectDatabase.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql))
+        {
+            ps.setInt(1, id);
+            ps.setString(2, username);
+            ps.setString(3, email);
+            ps.setString(4, password);
+            ps.setString(5, name);
+            ps.setString(6, "user");
+            ps.executeUpdate();
+        }catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Something went wrong");
+            alert.setContentText("Something went wrong");
+            alert.showAndWait();
+        }
     }
 }

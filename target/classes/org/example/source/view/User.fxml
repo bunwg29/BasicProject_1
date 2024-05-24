@@ -87,7 +87,7 @@
                   <Font name="Comic Sans MS" size="11.0" />
                </font>
             </Label>
-            <Button fx:id="signUpButton" layoutX="201.0" layoutY="382.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="60.0" style="-fx-background-color: transparent;" styleClass="signUp" stylesheets="@../../../../css/server.css" text="Sign up" textFill="WHITE">
+            <Button fx:id="signUpButton" layoutX="204.0" layoutY="383.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="60.0" style="-fx-background-color: transparent;" styleClass="signUp" stylesheets="@../../../../css/server.css" text="Sign up" textFill="WHITE">
                <font>
                   <Font name="Comic Sans MS Bold" size="11.0" />
                </font>
@@ -97,7 +97,7 @@
             </Button>
             <Button fx:id="button_login" layoutX="26.0" layoutY="320.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="294.0" styleClass="login" stylesheets="@../../../../css/server.css" text="SIGN IN">
                <font>
-                  <Font name="Corbel" size="12.0" />
+                  <Font name="Corbel Bold" size="14.0" />
                </font>
             </Button>
          </children>

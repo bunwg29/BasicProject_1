@@ -23,6 +23,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class dashboardAminController implements Initializable {
+
+    // Variables in dashboard.fxml file to connect between view and controller
     @FXML
     private TableView<BorrowListDTO> borrowlist_table;
 
@@ -80,15 +82,20 @@ public class dashboardAminController implements Initializable {
     @FXML
     private TableColumn<BackBookDTO, Timestamp> dateex_col; // Use BackBookDTO
 
+    // Variables use for handle data in database
     private borrowDataDAO borrowDataDAO;
+
+    // Variables use for support display data from database on table in .fxml file
     private ObservableList<BorrowListDTO> borrowListData = FXCollections.observableArrayList();
     private ObservableList<BackBookDTO> backBookData = FXCollections.observableArrayList(); // ObservableList for backBook data
 
+
+    // Variables use for connection between client and sever
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 8080;
-
     private Socket clientSocket;
 
+    // method use for check connection usually in dashboard in view package to decide display dashboard
     public boolean connect() {
         try (Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
             System.out.println("Connected to server: " + clientSocket.getRemoteSocketAddress());
@@ -99,6 +106,8 @@ public class dashboardAminController implements Initializable {
         }
     }
 
+
+    // Method close connection between client and sever
     private void closeConnection() {
         if (clientSocket != null) {
             try {
@@ -110,6 +119,7 @@ public class dashboardAminController implements Initializable {
         }
     }
 
+    // Method send message to sever
     private void sendMessageToServer(String message) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(clientSocket.getOutputStream());
@@ -121,8 +131,10 @@ public class dashboardAminController implements Initializable {
         }
     }
 
+    // Handle event
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialization variable
         borrowDataDAO = new borrowDataDAO();
         try {
             clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
@@ -132,7 +144,10 @@ public class dashboardAminController implements Initializable {
             closeConnection();
         }
 
-        // *** Add action column into borrowlist table only time ***
+        /*
+            Add column has title is ACTION and each row in column will have
+            a button to handle data at this row like: logic in database, borrow and back
+        */
         TableColumn<BorrowListDTO, String> actionCol = new TableColumn<>("ACTION"); // create actionCol
         actionCol.setCellValueFactory(cellData -> new SimpleStringProperty(""));
         actionCol.setCellFactory(param -> new TableCell<BorrowListDTO, String>() {
@@ -152,7 +167,10 @@ public class dashboardAminController implements Initializable {
 
         borrowlist_table.getColumns().add(actionCol); // Add column in to tabletView
 
-        // *** Add action column into borrowlist table only time ***
+        /*
+            Add column has title is ACTION and each row in column will have
+            a button to handle data at this row like: logic in database, borrow and back
+        */
         TableColumn<BackBookDTO, String> actionColBack = new TableColumn<>("ACTION");
         actionColBack.setCellValueFactory(cellData -> new SimpleStringProperty(""));
         actionColBack.setCellFactory(param -> new TableCell<BackBookDTO, String>() {
@@ -171,6 +189,7 @@ public class dashboardAminController implements Initializable {
         });
         backlist_table.getColumns().add(actionColBack);
 
+        // Set action for button_borrow where when you click on it the list of borrow will display
         button_borrow.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -183,6 +202,7 @@ public class dashboardAminController implements Initializable {
             }
         });
 
+        // Set action for button_borrow where when you click on it the list of return book request will display
         button_back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -195,6 +215,7 @@ public class dashboardAminController implements Initializable {
             }
         });
 
+        // Set action for button_borrow where when you click on it then you can insert information of book, user,...
         button_service.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -205,6 +226,7 @@ public class dashboardAminController implements Initializable {
         });
     }
 
+    // Method use for add data in to table list of borrow book
     private void initTableView() {
         idborrow_col.setCellValueFactory(new PropertyValueFactory<>("idBorrow"));
         iduser_col.setCellValueFactory(new PropertyValueFactory<>("idUser"));
@@ -216,6 +238,7 @@ public class dashboardAminController implements Initializable {
         borrowlist_table.setItems(borrowListData);
     }
 
+    // Handle between app and database with borrow book list
     private void handleAction(ActionEvent event) {
         Button button = (Button) event.getSource();
         TableCell<BorrowListDTO, String> cell = (TableCell) button.getParent();
@@ -234,6 +257,7 @@ public class dashboardAminController implements Initializable {
         }
     }
 
+    // Method use for add data in to table list of return book
     private void initTableBackView() {
         idback_col.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
         usernameback_col.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -243,7 +267,7 @@ public class dashboardAminController implements Initializable {
 
         backlist_table.setItems(backBookData);
     }
-
+    // Handle between app and database with return book list
     private void handleBackBookAction(ActionEvent event) {
         Button button = (Button) event.getSource();
         TableCell<BackBookDTO, String> cell = (TableCell) button.getParent();
