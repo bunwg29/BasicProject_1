@@ -1,6 +1,17 @@
 package org.example.source.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -8,20 +19,13 @@ import org.example.source.DAO.*;
 import org.example.source.model.bookModel;
 import org.example.source.model.*;
 
-import javafx.fxml.FXMLLoader;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.URL;
 import java.net.URI;
+import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,11 +44,30 @@ public class dashboardController implements Initializable {
     @FXML
     private HBox hbox_Blog;
 
+    @FXML
+    private AnchorPane layout_Borrow;
+
+    @FXML
+    private Button button_Borrow;
+
+    @FXML
+    private TableView<borrowModel> borrowListTable;
+    @FXML
+    private TableColumn<borrowModel, Integer> idborrow;
+    @FXML
+    private TableColumn<borrowModel, Integer> bookId;
+    @FXML
+    private TableColumn<borrowModel, Timestamp> databorrow;
+
     // Variable for handle database process
     private static bookDataDAO bookDataDAO;
     private List<blogModel> blogs;
     private List<bookModel> books;
     private List<HBox> blogCards;
+
+    private borrowDataDAO borrowDataDAO;
+    private userDataDAO userDataDAO;
+    private borrowModel borrowModel;
     // Variable for handle socket process
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 8080;
@@ -52,6 +75,8 @@ public class dashboardController implements Initializable {
     private ExecutorService executor;
     private Socket clientSocket;
     private blogController blogController;
+    private bookController currentBookController;
+
     // Check connection between client and sever to display application
     public boolean connect() {
         try (Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
@@ -63,17 +88,7 @@ public class dashboardController implements Initializable {
         }
     }
 
-    // Send message to sever function and print on client console
-    private void sendMessageToServer(String message) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(clientSocket.getOutputStream());
-            outputStreamWriter.write(message + "\n");
-            outputStreamWriter.flush();
-            System.out.println("Client on actioning: " + message);
-        } catch (IOException e) {
-            System.err.println("Error sending message: " + e.getMessage());
-        }
-    }
+    // Function close connection if necessary
     private void closeConnection() {
         if (clientSocket != null) {
             try {
@@ -84,6 +99,56 @@ public class dashboardController implements Initializable {
             }
         }
     }
+
+    // Send message to server function and print on client console
+    private void sendMessageToServer(String message) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(clientSocket.getOutputStream());
+            outputStreamWriter.write(message + "\n");
+            outputStreamWriter.flush();
+            System.out.println("Client on actioning: " + message);
+        } catch (IOException e) {
+            System.err.println("Error sending message: " + e.getMessage());
+        }
+    }
+
+    // Handler for action button in each row of table view
+    private void handleAction(ActionEvent event) {
+        // Get borrowModel corresponding to the clicked "Action" button
+        Button button = (Button) event.getSource();
+        TableView.TableViewSelectionModel<borrowModel> selectionModel = borrowListTable.getSelectionModel();
+        borrowModel selectedBorrow = selectionModel.getSelectedItem();
+
+        // Check if a row is selected
+        if (selectedBorrow != null) {
+            // Handle action based on borrowModel
+            // Example: display borrowModel information in a dialog, delete borrowModel from database, etc.
+            System.out.println("Borrow ID: " + selectedBorrow.getIdborrow());
+            System.out.println("Book ID: " + selectedBorrow.getBookId());
+            System.out.println("Borrow Date: " + selectedBorrow.getDataborrow());
+            int bookId = Integer.parseInt(selectedBorrow.getBookId());
+            if(borrowDataDAO.checkRequestBack(bookId)){
+                borrowDataDAO.backBook(userDataDAO.getUserName(loginController.usernameLogin), bookId, borrowDataDAO.findNameBook(bookId));
+                sendMessageToServer("action:" + selectedBorrow.getIdborrow());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("SUCCESSFULLY");
+                alert.setHeaderText("BACK BOOK");
+                alert.setContentText("You request back book successfully");
+                alert.show();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("INFORM");
+                alert.setHeaderText("CONFLICT");
+                alert.setContentText("You have already sent a request to back book to our");
+                alert.show();
+            }
+        } else {
+            // Show an error message or handle the case where no row is selected
+            System.err.println("No row selected in the table.");
+            // You can show a popup or alert to the user here
+        }
+    }
+
     // Controller for action on dashboard
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,72 +163,91 @@ public class dashboardController implements Initializable {
         blogs = new ArrayList<>(blog());
         books = new ArrayList<>(book());
         blogCards = new ArrayList<>();
+        borrowModel = new borrowModel();
+        borrowDataDAO = new borrowDataDAO();
+        userDataDAO = new userDataDAO();
+
         // Set action for button of home page in dashboard
         button_Home.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    int col = 0;
-                    int row = 1;
+                System.out.println(loginController.usernameLogin);
 
-                    // Get and display blog card on dashboard
-                    for (int i = 0; i < blogs.size(); i++) {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/blog.fxml"));
-                        HBox blogCard = fxmlLoader.load();
-                        blogCards.add(blogCard);
-                        blogController = fxmlLoader.getController();
-                        blogController.setData(blog().get(i));
-                        // Handle event for visit button in blog card
-                        Button visitButton = blogController.getVisitButton();
-                        int finalI = i;
-                        visitButton.setOnAction(event -> {
-                            try {
-                                Desktop.getDesktop().browse(new URI(blogs.get(finalI).getBlogLink()));
-                                sendMessageToServer("client is accessing: " + blogs.get(finalI).getBlogLink());
-                            } catch (Exception e) {
-                                System.err.println("Error open browser" + e.getMessage());
-                            }
-                        });
-                        hbox_Blog.getChildren().add(blogCard);
-                    }
+                // Refresh data when Home button is clicked
+                refreshData();
 
-                    // Create book card in dashboard
-                    for (bookModel book : books) {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/book.fxml"));
-                        VBox cardBook = fxmlLoader.load();
-                        bookController bookController = fxmlLoader.getController();
-                        bookController.setData(book);
-                        if(col == 6) {
-                            col = 0;
-                            ++row;
-                        }
-                        bookContainer.add(cardBook, col++, row);
-                        GridPane.setMargin(cardBook, new Insets(10));
-                    }
-                }catch(IOException e){
-                    e.printStackTrace();
-                } finally {
-                    executor.shutdown();
-                }
-                StringBuilder bookData = new StringBuilder();
-                StringBuilder blogData = new StringBuilder();
-                for (bookModel book : books) {
-                    bookData.append(book.toString()).append("\n");
-                }
-
-                for (blogModel blog : blogs) {
-                    blogData.append(blog.toString()).append("\n");
-                }
-                sendMessageToServer("Press home button");
-                sendMessageToServer(bookData.toString());
-                sendMessageToServer(blogData.toString());
                 // Visible for home in dashboard
                 layout_Home.setVisible(true);
+                layout_Borrow.setVisible(false);
             }
         });
 
+        // Variable to store the list of borrow books
+        ObservableList<borrowModel> borrowModels = FXCollections.observableArrayList();
+        borrowDataDAO = new borrowDataDAO(); // Initialize borrowDataDAO
+
+        // Set event for Borrow button
+        button_Borrow.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                layout_Home.setVisible(false);
+                layout_Borrow.setVisible(true);
+                updateBorrowList(); // Update the list of borrow books when the Borrow button is clicked
+            }
+        });
+
+        // Initialize the configuration for the columns of the borrowListTable
+        loadListBorrow();
+        borrowListTable.setItems(borrowModels); // Display the initial list of borrow books
+
+        // Create the "ACTION" column with a button in each row
+        TableColumn<borrowModel, Void> actionColumn = new TableColumn<>("ACTION");
+        actionColumn.setCellFactory(param -> new TableCell<borrowModel, Void>() {
+            private final Button actionButton = new Button("BACK");
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    actionButton.setOnAction(dashboardController.this::handleAction);
+                    setGraphic(actionButton);
+                }
+            }
+        });
+
+        // Add the "ACTION" column to the TableView
+        borrowListTable.getColumns().add(actionColumn);
+    }
+
+    private void handleBorrowButtonClick(ActionEvent event, bookController bookController) {
+        String bookId = bookController.getBookId();
+        int bookIdInt = Integer.parseInt(bookId);
+        if (borrowDataDAO.checkBookQuantity(bookIdInt) > 0) {
+            // Send request to server
+            sendMessageToServer("borrow:" + bookId);
+            // Add book borrow record to database
+            int newIdBorrow = borrowDataDAO.insertBookBorrow(loginController.usernameLogin, bookIdInt);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESSFULLY");
+            alert.setHeaderText("BORROW");
+            alert.setContentText("Borrowed " + newIdBorrow + " successfully");
+            alert.show();
+
+            // Refresh data after borrowing a book
+            refreshData();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("UNSUCCESSFULLY");
+            alert.setHeaderText("BORROW");
+            alert.setContentText("The quantity of books you want to borrow is over");
+            alert.show();
+        }
+    }
+
+    private void loadListBorrow() {
+        idborrow.setCellValueFactory(new PropertyValueFactory<>("idborrow"));
+        bookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        databorrow.setCellValueFactory(new PropertyValueFactory<>("databorrow"));
     }
 
     // Functions of get data from database are served in home dashboard
@@ -178,6 +262,7 @@ public class dashboardController implements Initializable {
             return new ArrayList<>();
         }
     }
+
     public ArrayList<blogModel> blog() {
         blogDataDAO blogDataDAO = new blogDataDAO();
         dataBlogFetcher dataFetcher = new dataBlogFetcher(blogDataDAO);
@@ -187,6 +272,88 @@ public class dashboardController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    // Update the borrow list from the database
+    private void updateBorrowList() {
+        ObservableList<borrowModel> borrowModels = FXCollections.observableArrayList();
+        borrowModels.addAll(borrowDataDAO.listBorrow(loginController.usernameLogin));
+        borrowListTable.setItems(borrowModels);
+    }
+
+    // Refresh and reload data for both blogs and books
+    private void refreshData() {
+        // Update books and blogs lists
+        books = new ArrayList<>(book());
+        blogs = new ArrayList<>(blog());
+
+        // Clear existing cards
+        bookContainer.getChildren().clear();
+        hbox_Blog.getChildren().clear();
+
+        try {
+            // Reload blog data (You should implement this part based on your logic)
+            int colBlog = 0;
+            int rowBlog = 1;
+            for (int i = 0; i < blogs.size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/blog.fxml"));
+                HBox blogCard = fxmlLoader.load();
+                blogCards.add(blogCard);
+                blogController = fxmlLoader.getController();
+                blogController.setData(blog().get(i));
+                Button visitButton = blogController.getVisitButton();
+                int finalI = i;
+                visitButton.setOnAction(event -> {
+                    try {
+                        Desktop.getDesktop().browse(new URI(blogs.get(finalI).getBlogLink()));
+                        sendMessageToServer("client is accessing: " + blogs.get(finalI).getBlogLink());
+                    } catch (Exception e) {
+                        System.err.println("Error open browser" + e.getMessage());
+                    }
+                });
+                hbox_Blog.getChildren().add(blogCard);
+            }
+
+            // Reload book data
+            int colBook = 0;
+            int rowBook = 1;
+            for (bookModel book : books) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/book.fxml"));
+                VBox cardBook = fxmlLoader.load();
+
+                currentBookController = fxmlLoader.getController();
+                currentBookController.setData(book);
+
+                bookController cardBookController = currentBookController;
+                cardBookController.button_borrow.setOnAction(event -> {
+                    handleBorrowButtonClick(event, cardBookController);
+                });
+
+                if (colBook == 6) {
+                    colBook = 0;
+                    ++rowBook;
+                }
+                bookContainer.add(cardBook, colBook++, rowBook);
+                GridPane.setMargin(cardBook, new Insets(10));
+            }
+
+            StringBuilder bookData = new StringBuilder();
+            StringBuilder blogData = new StringBuilder();
+            for (bookModel book : books) {
+                bookData.append(book.toString()).append("\n");
+            }
+
+            for (blogModel blog : blogs) {
+                blogData.append(blog.toString()).append("\n");
+            }
+            sendMessageToServer("Press home button");
+            sendMessageToServer(bookData.toString());
+            sendMessageToServer(blogData.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

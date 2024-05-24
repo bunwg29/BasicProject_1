@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class blogDataDAO implements BlogDAO<blogModel> {
+public class blogDataDAO implements blogDAO<blogModel> {
 
     @Override
     public ArrayList<blogModel> getBlogData() {

@@ -1,0 +1,31 @@
+
+.button {
+    -fx-text-fill : #fff;
+}
+.Button:hover{
+    -fx-underline: true;
+    -fx-text-fill: #00f6ff;
+}
+.Pass {
+    -fx-background-radius:18px ;
+    -fx-background-color: #0F4C75;
+    -fx-text-fill: white;
+}
+.User{
+    -fx-background-radius:18px;
+    -fx-background-color:  #474E68;
+    -fx-text-fill: white;
+}
+
+.Login {
+    -fx-background-color: white ;
+    -fx-font-color: black;
+}
+
+.back {
+    -fx-background-color: transparent;
+}
+
+.back:hover{
+    -fx-background-color: #002379;
+}

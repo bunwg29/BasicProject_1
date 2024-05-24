@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="902.0" prefWidth="1407.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.dashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="793.0" prefWidth="1407.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.dashboardController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0" spacing="20.0" styleClass="side-background" stylesheets="@../../../../css/dashboard.css" BorderPane.alignment="CENTER">
          <children>
@@ -87,7 +89,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Favourite" textFill="WHITE">
+                  <Button fx:id="button_Borrow" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Favourite" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -120,54 +122,7 @@
                   <Separator prefWidth="200.0" />
                </children>
             </VBox>
-            <VBox prefHeight="210.0" prefWidth="250.0">
-               <children>
-                  <Label text="Mr. Bun" textFill="WHITE">
-                     <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="10.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Home" textFill="WHITE">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/ic-home.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Favourite" textFill="WHITE">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/star.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button contentDisplay="TOP" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="200.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Service" textFill="WHITE">
-                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../image/service.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font name="Berlin Sans FB" size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
+            <VBox prefHeight="210.0" prefWidth="250.0" />
             <VBox prefHeight="185.0" prefWidth="250.0" stylesheets="@../../../../css/dashboard.css" />
          </children>
       </VBox>
@@ -175,7 +130,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="layout_Home" layoutX="-0.8" prefHeight="640.0" prefWidth="1086.0" styleClass="main-background" stylesheets="@../../../../css/dashboard.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="layout_Home" layoutX="-0.8" prefHeight="640.0" prefWidth="1086.0" styleClass="main-background" stylesheets="@../../../../css/dashboard.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="23.0" layoutY="18.0" text="Browse" textFill="WHITE">
                      <font>
@@ -195,12 +150,12 @@
                         <Font name="Berlin Sans FB" size="18.0" />
                      </font>
                   </Label>
-                  <ScrollPane hbarPolicy="ALWAYS" layoutX="26.0" layoutY="336.0" prefHeight="493.0" prefWidth="1123.0" styleClass="transparent" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="ALWAYS" layoutX="26.0" layoutY="336.0" prefHeight="388.0" prefWidth="1123.0" styleClass="transparent" vbarPolicy="ALWAYS">
                      <content>
                         <GridPane fx:id="bookContainer" prefHeight="4.0" prefWidth="0.0" styleClass="background-color" stylesheets="@../../../../css/blogCardDashboard.css">
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                         </GridPane>
                      </content>
                      <stylesheets>
@@ -208,6 +163,17 @@
                         <URL value="@../../../../css/dashboard.css" />
                      </stylesheets>
                   </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="layout_Borrow" prefHeight="733.6" prefWidth="1156.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TableView fx:id="borrowListTable" layoutX="83.0" layoutY="66.0" prefHeight="474.0" prefWidth="875.0" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="100.0">
+                     <columns>
+                        <TableColumn fx:id="idborrow" prefWidth="164.2667236328125" text="ID BORROW" />
+                        <TableColumn fx:id="bookId" prefWidth="199.73333740234375" text="BOOK ID" />
+                        <TableColumn fx:id="databorrow" prefWidth="246.66659545898438" text="BORROW DATE" />
+                     </columns>
+                  </TableView>
                </children>
             </AnchorPane>
          </children>

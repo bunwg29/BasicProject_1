@@ -6,7 +6,7 @@ import org.example.source.model.bookModel;
 import java.sql.*;
 import java.util.ArrayList;
 //This class support handle get data of book content in application
-public class bookDataDAO implements BookDAO<bookModel> {
+public class bookDataDAO implements bookDAO<bookModel> {
     bookModel book = null;
     ArrayList<bookModel> bookDatabase = new ArrayList<bookModel>();
 
@@ -32,6 +32,7 @@ public class bookDataDAO implements BookDAO<bookModel> {
         }
         return bookDatabase;
     }
+
 
 
 

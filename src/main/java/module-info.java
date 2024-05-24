@@ -13,5 +13,7 @@ module org.example.source {
     opens org.example.source.controller to javafx.fxml;
     opens org.example.source.database;
     opens org.example.source.DAO;
+    opens org.example.source.DTO;
     exports org.example.source.database to javafx.fxml;
+    exports org.example.source.DTO to javafx.fxml;
 }

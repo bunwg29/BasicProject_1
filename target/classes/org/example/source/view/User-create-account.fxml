@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="338.0" style="-fx-background-color: #222831;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.loginController">
+   <children>
+      <Label layoutX="23.0" layoutY="32.0" prefHeight="99.0" prefWidth="193.0" text="Let's get   started" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Cooper Black" size="35.0" />
+         </font>
+         <effect>
+            <Glow level="0.35" />
+         </effect>
+      </Label>
+      <TextField fx:id="Text_user" layoutX="23.0" layoutY="145.0" prefHeight="42.0" prefWidth="293.0" promptText="Username" styleClass="User" stylesheets="@../../../../css/signUp.css">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="35.0" right="10.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="Text_email" layoutX="23.0" layoutY="199.0" prefHeight="42.0" prefWidth="293.0" promptText="Email" styleClass="email" stylesheets="@../../../../css/signUp.css">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="35.0" right="10.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="Pass_text_password" layoutX="23.0" layoutY="253.0"  prefHeight="42.0" prefWidth="293.0" promptText="Password" styleClass="password" stylesheets="@../../../../css/signUp.css" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="35.0" right="32.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="Pass_text_confirmPassword" layoutX="23.0" layoutY="308.0"  prefHeight="42.0" prefWidth="293.0" promptText="Confirm password" styleClass="password" stylesheets="@../../../../css/signUp.css" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="35.0" right="32.0" />
+         </padding>
+      </TextField>
+      <PasswordField fx:id="Pass_password" layoutX="23.0" layoutY="253.0"  prefHeight="42.0" prefWidth="293.0" promptText="Password" styleClass="password" stylesheets="@../../../../css/signUp.css">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="35.0" right="32.0" />
+         </padding>
+      </PasswordField>
+      <PasswordField fx:id="Pass_confirmPassword" layoutX="23.0" layoutY="308.0"  prefHeight="42.0" prefWidth="293.0" promptText="Confirm password" styleClass="password" stylesheets="@../../../../css/signUp.css">
+         <font>
+            <Font name="Calibri Bold" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="35.0" right="32.0" />
+         </padding>
+      </PasswordField>
+      <Button fx:id="back_button" layoutX="4.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="23.0" styleClass="back" stylesheets="@../../../../css/SignIn.css" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../image/arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="35.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/user.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="34.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/padlock1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="31.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/password.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Image_Password_closeEye" fitHeight="16.0" fitWidth="16.0" layoutX="289.0" layoutY="267.0"  pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/hidden.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Image_confirmPassword_closeEye" fitHeight="16.0" fitWidth="16.0" layoutX="289.0" layoutY="321.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/hidden.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Image_Password_openEye" fitHeight="16.0" fitWidth="16.0" layoutX="289.0" layoutY="267.0"  pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../../image/eye.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Image_confirmPassword_openEye" fitHeight="16.0" fitWidth="16.0" layoutX="289.0" layoutY="321.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../../image/eye.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="signUp_button" disable="true" layoutX="23.0" layoutY="404.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="293.0" stylesheets="@../../../../css/signUp.css" text="Sign up">
+         <font>
+            <Font name="Book Antiqua Bold" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="83.0" layoutY="445.0" text="Already have an account?" textFill="#eeeeee">
+         <font>
+            <Font name="Comic Sans MS" size="11.0" />
+         </font>
+      </Label>
+      <Button fx:id="login_button" layoutX="213.0" layoutY="446.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: transparent;" styleClass="Button" stylesheets="@../../../../css/SignIn.css" text="Login" textFill="WHITE">
+         <font>
+            <Font name="Comic Sans MS Bold" size="11.0" />
+         </font>
+         <padding>
+            <Insets left="-17.0" top="-12.0" />
+         </padding>
+      </Button>
+      <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="32.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/mail.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="emailCheck" layoutX="93.0" layoutY="370.0" prefHeight="17.0" prefWidth="193.0" textFill="#be29cc" />
+      <ImageView fx:id="checkIcon" fitHeight="16.0" fitWidth="16.0" layoutX="67.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../../image/warning.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

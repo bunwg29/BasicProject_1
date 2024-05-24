@@ -1,0 +1,32 @@
+.User{
+    -fx-background-radius:18px;
+    -fx-background-color:  #4a5c6a;
+    -fx-text-fill: #ffffff;
+}
+
+.User .placeholder {
+    -fx-text-fill:white;
+}
+
+.email{
+    -fx-background-color: #577B8D;
+    -fx-background-radius:18px ;
+    -fx-text-fill: #ffffff;
+}
+
+.password{
+     -fx-background-radius:18px ;
+     -fx-background-color: #0F4C75;
+     -fx-text-fill: #ffffff;
+}
+
+.button{
+    -fx-background-color:#EEF7FF;
+    -fx-background-radius:21px;
+}
+.button:hover {
+    -fx-background-color: #CAF4FF;
+}
+
+
+
