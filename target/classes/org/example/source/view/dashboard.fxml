@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -165,15 +166,35 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="layout_Borrow" prefHeight="733.6" prefWidth="1156.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="borrowListTable" layoutX="83.0" layoutY="66.0" prefHeight="474.0" prefWidth="875.0" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="100.0">
-                     <columns>
-                        <TableColumn fx:id="idborrow" prefWidth="164.2667236328125" text="ID BORROW" />
-                        <TableColumn fx:id="bookId" prefWidth="199.73333740234375" text="BOOK ID" />
-                        <TableColumn fx:id="databorrow" prefWidth="246.66659545898438" text="BORROW DATE" />
-                     </columns>
-                  </TableView>
+                  <AnchorPane layoutX="194.0" layoutY="83.0" prefHeight="567.0" prefWidth="770.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
+                     <effect>
+                        <DropShadow height="24.0" radius="11.5" width="24.0" />
+                     </effect>
+                     <children>
+                        <TableView fx:id="borrowListTable" layoutX="39.0" layoutY="79.0" prefHeight="453.0" prefWidth="692.0" stylesheets="@../../../../css/dashboard.css" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="79.0">
+                           <columns>
+                              <TableColumn fx:id="idborrow" prefWidth="164.2667236328125" text="ID BORROW" />
+                              <TableColumn fx:id="bookId" prefWidth="199.73333740234375" text="BOOK ID" />
+                              <TableColumn fx:id="databorrow" prefWidth="246.66659545898438" text="BORROW DATE" />
+                           </columns>
+                        </TableView>
+                        <TextField layoutX="39.0" layoutY="25.0" prefHeight="30.0" prefWidth="241.0" promptText="Search" styleClass="search" stylesheets="@../../../../css/dashboard.css">
+                           <padding>
+                              <Insets left="30.0" />
+                           </padding>
+                           <font>
+                              <Font name="Comic Sans MS" size="20.0" />
+                           </font>
+                        </TextField>
+                        <ImageView fitHeight="10.0" fitWidth="8.0" layoutX="49.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" scaleX="1.6" scaleY="1.6">
+                           <image>
+                              <Image url="@../../../../image/loupe.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
