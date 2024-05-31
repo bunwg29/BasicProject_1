@@ -162,7 +162,7 @@
    <center>
       <AnchorPane prefHeight="734.0" prefWidth="1125.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="borrowlist_layout" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="borrowlist_layout" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane layoutX="48.0" layoutY="34.0" prefHeight="665.0" prefWidth="1082.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
                      <children>
@@ -205,16 +205,71 @@
                      </font>
                   </Label>
                </children></AnchorPane>
-            <AnchorPane fx:id="services_layout" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="services_layout" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane layoutX="220.0" layoutY="36.0" prefHeight="602.0" prefWidth="588.0" style="-fx-background-color: #1a1a1a;">
+                  <AnchorPane layoutX="337.0" layoutY="87.0" prefHeight="560.0" prefWidth="483.0" style="-fx-background-color: #1a1a1a; -fx-background-radius: 20px;">
                      <children>
-                        <TextField fx:id="update_book_Id" layoutX="133.0" layoutY="89.0" prefHeight="26.0" prefWidth="296.0" promptText="Book ID" />
-                        <TextField fx:id="update_book_Image" layoutX="120.0" layoutY="166.0" prefHeight="26.0" prefWidth="322.0" promptText="Book Image link" />
-                        <TextField fx:id="update_book_Name" layoutX="27.0" layoutY="129.0" prefHeight="26.0" prefWidth="508.0" promptText="Book Name" />
-                        <TextField fx:id="update_book_Quantity" layoutX="40.0" layoutY="240.0" prefHeight="26.0" prefWidth="508.0" promptText="Book Quantity" />
-                        <Button fx:id="update_button_book" layoutX="80.0" layoutY="317.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="162.0" text="UPDATE" />
-                        <Button fx:id="update_insert_button" layoutX="348.0" layoutY="317.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="162.0" text="INSERT" />
+                        <TextField fx:id="update_book_Id" layoutX="89.0" layoutY="125.0" prefHeight="46.0" prefWidth="350.0" promptText="Book ID" styleClass="information_book" stylesheets="@../../../../css/dashboard.css">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="update_book_Image" layoutX="90.0" layoutY="278.0" prefHeight="46.0" prefWidth="350.0" promptText="Book Image link" styleClass="information_book" stylesheets="@../../../../css/dashboard.css">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                           <font>
+                              <Font name="Arial" size="15.0" />
+                           </font></TextField>
+                        <TextField fx:id="update_book_Name" layoutX="90.0" layoutY="203.0" prefHeight="46.0" prefWidth="350.0" promptText="Book Name" styleClass="information_book" stylesheets="@../../../../css/dashboard.css">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="update_book_Quantity" layoutX="89.0" layoutY="356.0" prefHeight="46.0" prefWidth="350.0" promptText="Book Quantity" styleClass="information_book" stylesheets="@../../../../css/dashboard.css">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                           <font>
+                              <Font name="Arial" size="15.0" />
+                           </font></TextField>
+                        <Button fx:id="update_button_book" layoutX="45.0" layoutY="448.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="144.0" styleClass="information_button_update" stylesheets="@../../../../css/dashboard.css" text="UPDATE" textFill="WHITE">
+                           <font>
+                              <Font name="Eras Demi ITC" size="14.0" />
+                           </font></Button>
+                        <Button fx:id="update_insert_button" layoutX="296.0" layoutY="448.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="144.0" styleClass="information_button_insert" stylesheets="@../../../../css/dashboard.css" text="INSERT" textFill="WHITE">
+                           <font>
+                              <Font name="Eras Demi ITC" size="14.0" />
+                           </font></Button>
+                        <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="45.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/book.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="47.0" fitWidth="33.0" layoutX="43.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/sign-in-book.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="47.0" fitWidth="32.0" layoutX="45.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/boxes.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="47.0" fitWidth="33.0" layoutX="43.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/photo-album.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="45.0" layoutY="61.0" prefHeight="42.0" prefWidth="306.0" text="Book Information" textFill="WHITE">
+                           <font>
+                              <Font name="Georgia" size="32.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </children>
