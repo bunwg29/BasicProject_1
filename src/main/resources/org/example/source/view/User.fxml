@@ -26,26 +26,26 @@
             </Label>
             <TextField fx:id="username_txt" layoutX="22.0" layoutY="176.0" prefHeight="42.0" prefWidth="293.0" promptText="Username" styleClass="User" stylesheets="@../../../../css/SignIn.css">
                <padding>
-                  <Insets left="42.0" right="10.0" top="2.0" />
+                  <Insets left="37.0" right="17.0" />
                </padding>
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </TextField>
-            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="37.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="33.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../image/user.png" />
                </image>
             </ImageView>
-            <TextField fx:id="pass" layoutX="22.0" layoutY="234.0" prefHeight="42.0" prefWidth="293.0" promptText="Password" style="-fx-background-radius: 21px; -fx-background-color: #0F4C75; -fx-text-fill: white;" visible="false">
+            <TextField fx:id="pass" layoutX="22.0" layoutY="234.0" onKeyReleased="#ShowPasswordOnAction" prefHeight="42.0" prefWidth="293.0" promptText="Password" style="-fx-background-radius: 18px; -fx-background-color: #0F4C75; -fx-text-fill: white;" visible="false">
                <padding>
-                  <Insets bottom="1.0" left="42.0" right="35.0" top="1.0" />
+                  <Insets left="37.0" right="32.0" />
                </padding>
                <font>
-                  <Font name="Consolas Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </TextField>
-            <ImageView fx:id="open_eye" fitHeight="16.0" fitWidth="16.0" layoutX="287.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="open_eye" fitHeight="16.0" fitWidth="16.0" layoutX="287.0" layoutY="248.0" onMouseClicked="#open_eye_OnAction" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../../../image/eye.png" />
                </image>
@@ -61,20 +61,20 @@
                   <Insets bottom="10.0" top="-8.0" />
                </padding>
             </Button>
-            <PasswordField fx:id="password_txt" cacheShape="false" layoutX="22.0" layoutY="234.0" pickOnBounds="false" prefHeight="42.0" prefWidth="293.0" promptText="Password" styleClass="Pass" stylesheets="@../../../../css/SignIn.css">
+            <PasswordField fx:id="password_txt" cacheShape="false" layoutX="22.0" layoutY="234.0" onKeyReleased="#HidePasswordOnAction" pickOnBounds="false" prefHeight="42.0" prefWidth="293.0" promptText="Password" styleClass="Pass" stylesheets="@../../../../css/SignIn.css">
                <padding>
-                  <Insets bottom="1.0" left="42.0" right="35.0" top="1.0" />
+                  <Insets left="37.0" right="32.0" />
                </padding>
                <font>
-                  <Font name="Consolas Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </PasswordField>
-            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="37.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="32.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../image/padlock.png" />
+                  <Image url="@../../../../image/padlock2.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="close_eye" fitHeight="16.0" fitWidth="16.0" layoutX="287.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="close_eye" fitHeight="16.0" fitWidth="16.0" layoutX="287.0" layoutY="248.0" onMouseClicked="#close_eye_OnAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../image/hidden.png" />
                </image>
@@ -82,20 +82,20 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <Label layoutX="79.0" layoutY="387.0" text="Don't have an account ?" textFill="#eeeeee">
+            <Label layoutX="82.0" layoutY="371.0" text="Don't have an account ?" textFill="#eeeeee">
                <font>
                   <Font name="Comic Sans MS" size="11.0" />
                </font>
             </Label>
-            <Button fx:id="signUpButton" layoutX="204.0" layoutY="383.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="60.0" style="-fx-background-color: transparent;" styleClass="signUp" stylesheets="@../../../../css/server.css" text="Sign up" textFill="WHITE">
+            <Button fx:id="signUpButton" layoutX="204.0" layoutY="372.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="60.0" style="-fx-background-color: transparent;" styleClass="signUp" stylesheets="@../../../../css/server.css" text="Sign up" textFill="WHITE">
                <font>
                   <Font name="Comic Sans MS Bold" size="11.0" />
                </font>
                <padding>
-                  <Insets right="11.0" />
+                  <Insets right="11.0" top="-10.0" />
                </padding>
             </Button>
-            <Button fx:id="button_login" layoutX="26.0" layoutY="320.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="294.0" styleClass="login" stylesheets="@../../../../css/server.css" text="SIGN IN">
+            <Button fx:id="button_login" layoutX="26.0" layoutY="328.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="294.0" styleClass="login" stylesheets="@../../../../css/server.css" text="SIGN IN">
                <font>
                   <Font name="Corbel Bold" size="14.0" />
                </font>

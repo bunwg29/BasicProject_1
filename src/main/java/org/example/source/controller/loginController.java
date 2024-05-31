@@ -1,5 +1,6 @@
 package org.example.source.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.example.source.DAO.userDataDAO;
 import org.example.source.view.dashboard;
@@ -17,22 +21,36 @@ import org.example.source.view.dashboard;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class loginController implements Initializable {
 
     // Variables for .fxml file
     @FXML
-    private PasswordField password_txt;
-    @FXML
-    private TextField username_txt;
-    @FXML
     private Button button_login;
+
+    @FXML
+    private ImageView close_eye;
+
+    @FXML
+    private ImageView open_eye;
+
+    @FXML
+    private TextField pass;
+
+    @FXML
+    private PasswordField password_txt;
+
     @FXML
     private Button signUpButton;
 
+    @FXML
+    private TextField username_txt;
     // Variables for handle data
     private userDataDAO dao;
     public static String usernameLogin;
+    private String password ;
 
     // Handle event
     @Override
@@ -44,8 +62,10 @@ public class loginController implements Initializable {
         button_login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-               if(dao.check(username_txt.getText(), password_txt.getText()).equals("user")) {
-                   usernameLogin = username_txt.getText();
+                String username = username_txt.getText() ;
+                String password = pass.isVisible() ? pass.getText() : password_txt.getText();
+               if(dao.check(username, password).equals("user")) {
+                   usernameLogin = username;
                    Stage stage = new Stage();
                    FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboard.fxml"));
                    Scene scene = null;
@@ -103,5 +123,40 @@ public class loginController implements Initializable {
                 currentStage.close();
             }
         });
+    }
+    @FXML
+    void HidePasswordOnAction(KeyEvent event) {
+        password = password_txt.getText() ;
+        pass.setText(password);
+    }
+
+    @FXML
+    void ShowPasswordOnAction(KeyEvent event) {
+        password = pass.getText() ;
+        password_txt.setText(password);
+    }
+
+    @FXML
+    void close_eye_OnAction(MouseEvent event) {
+        password_txt.setVisible(false);
+        close_eye.setVisible(false);
+        pass.setVisible(true);
+        open_eye.setVisible(true);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> open_eye_OnAction(null));
+            }
+        }, 1000);
+    }
+
+    @FXML
+    void open_eye_OnAction(MouseEvent event) {
+        password_txt.setVisible(true);
+        close_eye.setVisible(true);
+        pass.setVisible(false);
+        open_eye.setVisible(false);
     }
 }
