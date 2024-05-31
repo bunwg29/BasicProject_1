@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -100,7 +101,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="button_service" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="SERVICES" textFill="WHITE">
+                  <Button fx:id="button_service" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="51.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="SERVICES" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -126,26 +127,33 @@
    <center>
       <AnchorPane prefHeight="734.0" prefWidth="1125.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="borrowlist_layout" layoutX="14.0" layoutY="14.0" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="borrowlist_layout" layoutX="14.0" layoutY="14.0" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TableView fx:id="borrowlist_table" layoutX="65.0" layoutY="86.0" prefHeight="533.0" prefWidth="1018.0">
-                    <columns>
-                      <TableColumn fx:id="idborrow_col" prefWidth="98.40003204345703" text="ID BOROW" />
-                      <TableColumn fx:id="iduser_col" minWidth="0.0" prefWidth="102.93331909179688" text="ID USER" />
-                        <TableColumn fx:id="bookid_col" prefWidth="111.46661376953125" text="BOOK ID" />
-                        <TableColumn fx:id="dateborrow_col" prefWidth="193.86666870117188" text="DATE BORROW" />
-                        <TableColumn fx:id="username_col" prefWidth="207.9998779296875" text="NAME USER" />
-                        <TableColumn fx:id="bookname_col" prefWidth="207.9998779296875" text="BOOK NAME" />
-                    </columns>
-                  </TableView>
-                  <Label layoutX="67.0" layoutY="23.0" prefHeight="42.0" prefWidth="301.0" text="BOOK BORROWING LIST REQUEST">
-                     <font>
-                        <Font name="Berlin Sans FB Bold" size="18.0" />
-                     </font>
-                  </Label>
+                  <AnchorPane layoutX="48.0" layoutY="34.0" prefHeight="665.0" prefWidth="1082.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
+                     <children>
+                        <Label layoutX="32.0" layoutY="26.0" prefHeight="42.0" prefWidth="301.0" text="BOOK BORROWING LIST REQUEST">
+                           <font>
+                              <Font name="Berlin Sans FB Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="borrowlist_table" layoutX="32.0" layoutY="103.0" prefHeight="533.0" prefWidth="1018.0" stylesheets="@../../../../css/dashboard.css">
+                          <columns>
+                            <TableColumn fx:id="idborrow_col" prefWidth="98.40003204345703" text="ID BOROW" />
+                            <TableColumn fx:id="iduser_col" minWidth="0.0" prefWidth="102.93331909179688" text="ID USER" />
+                              <TableColumn fx:id="bookid_col" prefWidth="111.46661376953125" text="BOOK ID" />
+                              <TableColumn fx:id="dateborrow_col" prefWidth="193.86666870117188" text="DATE BORROW" />
+                              <TableColumn fx:id="username_col" prefWidth="207.9998779296875" text="NAME USER" />
+                              <TableColumn fx:id="bookname_col" prefWidth="207.9998779296875" text="BOOK NAME" />
+                          </columns>
+                        </TableView>
+                     </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TableView fx:id="backlist_table" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
                      <columns>
