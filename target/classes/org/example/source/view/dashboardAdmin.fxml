@@ -37,9 +37,9 @@
                </children>
             </HBox>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="100.0" spacing="20.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="101.0" spacing="20.0">
                <children>
-                  <Label text="Mr. Bun" textFill="WHITE">
+                  <Label text="ADMIN" textFill="WHITE">
                      <font>
                         <Font name="Berlin Sans FB" size="15.0" />
                      </font>
@@ -89,7 +89,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../image/star.png" />
+                              <Image url="@../../../../image/request.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -100,11 +100,11 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="button_service" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="SERVICES" textFill="WHITE">
+                  <Button fx:id="button_service" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Book Information" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../image/service.png" />
+                              <Image url="@../../../../image/update.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -145,7 +145,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TableView fx:id="backlist_table" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
                      <columns>
@@ -163,6 +163,12 @@
                   </Label>
                </children></AnchorPane>
             <AnchorPane fx:id="services_layout" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="update_book_Id" layoutX="95.0" layoutY="99.0" prefHeight="26.0" prefWidth="508.0" />
+            <TextField fx:id="update_book_Image" layoutX="88.0" layoutY="146.0" prefHeight="26.0" prefWidth="508.0" />
+            <TextField fx:id="update_book_Name" layoutX="83.0" layoutY="227.0" prefHeight="26.0" prefWidth="508.0" />
+            <TextField fx:id="update_book_Quantity" layoutX="88.0" layoutY="303.0" prefHeight="26.0" prefWidth="508.0" />
+            <Button fx:id="update_button_book" layoutX="433.0" layoutY="365.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="162.0" text="UPDATE" />
+            <Button fx:id="update_insert_button" layoutX="124.0" layoutY="366.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="162.0" text="INSERT" />
          </children>
       </AnchorPane>
    </center>

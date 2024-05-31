@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -43,13 +44,14 @@ public class dashboardController implements Initializable {
     private GridPane bookContainer;
     @FXML
     private HBox hbox_Blog;
-
     @FXML
     private AnchorPane layout_Borrow;
-
+    @FXML
+    private AnchorPane layout_update;
     @FXML
     private Button button_Borrow;
-
+    @FXML
+    private Button button_update;
     @FXML
     private TableView<borrowModel> borrowListTable;
     @FXML
@@ -58,7 +60,14 @@ public class dashboardController implements Initializable {
     private TableColumn<borrowModel, Integer> bookId;
     @FXML
     private TableColumn<borrowModel, Timestamp> databorrow;
-
+    @FXML
+    private TextField email_update_txt;
+    @FXML
+    private TextField name_update_txt;
+    @FXML
+    private TextField password_update_txt;
+    @FXML
+    private Button update_info_button;
     // Variable for handle database process
     private static bookDataDAO bookDataDAO;
     private List<blogModel> blogs;
@@ -179,6 +188,7 @@ public class dashboardController implements Initializable {
                 // Visible for home in dashboard
                 layout_Home.setVisible(true);
                 layout_Borrow.setVisible(false);
+                layout_update.setVisible(false);
             }
         });
 
@@ -191,6 +201,7 @@ public class dashboardController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 layout_Home.setVisible(false);
                 layout_Borrow.setVisible(true);
+                layout_update.setVisible(false);
                 updateBorrowList(); // Update the list of borrow books when the Borrow button is clicked
             }
         });
@@ -217,6 +228,29 @@ public class dashboardController implements Initializable {
 
         // Add the "ACTION" column to the TableView
         borrowListTable.getColumns().add(actionColumn);
+
+        button_update.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                layout_Home.setVisible(false);
+                layout_Borrow.setVisible(false);
+                layout_update.setVisible(true);
+            }
+        });
+
+        update_info_button.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                if(validateController.isValidGmail(email_update_txt.getText()) && validateController.checkPassword(password_update_txt.getText())) {
+                    userDataDAO.updateUser(loginController.usernameLogin, email_update_txt.getText(), name_update_txt.getText(), password_update_txt.getText());
+                }else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("INFORM");
+                    alert.setHeaderText("NOT CORRECT INPUT");
+                    alert.setContentText("Your email or password is wrong");
+                    alert.showAndWait();
+                }
+            }
+        });
+
     }
 
     private void handleBorrowButtonClick(ActionEvent event, bookController bookController) {

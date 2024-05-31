@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import org.example.source.DAO.borrowDataDAO;
+import org.example.source.DAO.bookDataDAO;
 import org.example.source.DTO.BorrowListDTO;
 import org.example.source.DTO.BackBookDTO;
 
@@ -82,8 +83,27 @@ public class dashboardAminController implements Initializable {
     @FXML
     private TableColumn<BackBookDTO, Timestamp> dateex_col; // Use BackBookDTO
 
+    @FXML
+    private TextField update_book_Id;
+
+    @FXML
+    private TextField update_book_Image;
+
+    @FXML
+    private TextField update_book_Name;
+
+    @FXML
+    private TextField update_book_Quantity;
+
+    @FXML
+    private Button update_button_book;
+    @FXML
+    private Button update_insert_button;
+
+
     // Variables use for handle data in database
     private borrowDataDAO borrowDataDAO;
+    private bookDataDAO bookDataDAO;
 
     // Variables use for support display data from database on table in .fxml file
     private ObservableList<BorrowListDTO> borrowListData = FXCollections.observableArrayList();
@@ -136,6 +156,7 @@ public class dashboardAminController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialization variable
         borrowDataDAO = new borrowDataDAO();
+        bookDataDAO = new bookDataDAO();
         try {
             clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
             System.out.println("Connected to server: " + clientSocket.getRemoteSocketAddress());
@@ -222,6 +243,33 @@ public class dashboardAminController implements Initializable {
                 borrowlist_layout.setVisible(false);
                 backlist_layout.setVisible(false);
                 services_layout.setVisible(true);
+            }
+        });
+
+        //Set action for update button book use for update info relative to book
+        update_button_book.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                int bookId = Integer.parseInt(update_book_Id.getText());
+                int bookQuantity = Integer.parseInt(update_book_Quantity.getText());
+                if(update_book_Id.getText() != null && update_book_Image.getText() != null && update_book_Name.getText() != null && update_book_Quantity.getText() != null) {
+                    bookDataDAO.updateBook(bookId, update_book_Image.getText(), update_book_Name.getText(), bookQuantity);
+                }
+            }
+        });
+
+        //Set action for update button book use for insert info relative to book
+        update_insert_button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(bookDataDAO.findBookId(Integer.parseInt(update_book_Id.getText())) && bookDataDAO.finLinkImage(update_book_Image.getText())) {
+                    bookDataDAO.insertBook(Integer.parseInt(update_book_Id.getText()), update_book_Image.getText(), update_book_Name.getText(), Integer.parseInt(update_book_Quantity.getText()));
+                }else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Error");
+                    alert.setContentText("Input of book ID exist in database");
+                    alert.showAndWait();
+                }
             }
         });
     }
