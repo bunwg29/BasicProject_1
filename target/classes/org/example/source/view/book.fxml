@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="309.0" prefWidth="180.0" stylesheets="@../../../../css/blogCardDashboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.source.controller.bookController">
+   <children>
+      <Label fx:id="bookId" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Berlin Sans FB Bold" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="bookImage" fitHeight="177.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../imageBook/web_programming.jpg" />
+         </image>
+      </ImageView>
+      <VBox prefHeight="23.0" prefWidth="158.0">
+         <children>
+            <Label fx:id="bookName" prefHeight="28.0" prefWidth="158.0" text="Web Programming" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+            <VBox alignment="TOP_RIGHT" prefHeight="13.0" prefWidth="158.0">
+               <children>
+                  <Label fx:id="bookQuantity" alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="15.0" prefWidth="26.0" text="10" textFill="WHITE">
+                     <font>
+                        <Font name="Berlin Sans FB" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="45.0" prefWidth="158.0">
+         <children>
+            <Button fx:id="button_borrow" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" styleClass="button-style" stylesheets="@../../../../css/blogCardDashboard.css" text="BORROW" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <styleClass>
+      <String fx:value="box-radius" />
+      <String fx:value="background-color" />
+   </styleClass>
+</VBox>

@@ -1,0 +1,47 @@
+.Star_server{
+    -fx-background-color:#336f57;
+    -fx-background-radius:5px;
+    -fx-cursor:hand;
+    -fx-text-fill:#fff;
+    -fx-font-size: 13px ;
+    -fx-font-family:"Haettenschweiler";
+}
+.Star_server:hover{
+    -fx-background-color:#459073;
+}
+.End_server{
+    -fx-background-color:#ba4949;
+    -fx-background-radius:5px;
+    -fx-cursor:hand;
+    -fx-text-fill:#fff;
+    -fx-font-size: 13px ;
+    -fx-font-family:"Haettenschweiler";
+}
+.End_server:hover{
+    -fx-background-color:#c15c5c;
+}
+.login{
+    -fx-background-color:#C0D6E8;
+    -fx-background-radius:18px;
+}
+.login:hover{
+     -fx-background-color:#EEF7FF;
+}
+
+.signUp{
+    -fx-text-fill:#fff;
+}
+.signUp:hover{
+     -fx-underline: true;
+     -fx-text-fill: #00f6ff;
+}
+
+.Nut {
+    -fx-background-color:black ;
+    -fx-border-radius:4px ;
+    -fx-background-radius:4px ;
+}
+
+.Send {
+
+}
