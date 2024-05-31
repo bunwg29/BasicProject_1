@@ -101,11 +101,9 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-<<<<<<< HEAD
-                  <Button fx:id="button_service" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="51.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="SERVICES" textFill="WHITE">
-=======
+
                   <Button fx:id="button_service" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Book Information" textFill="WHITE">
->>>>>>> 3/handle-logic
+
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

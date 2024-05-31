@@ -166,11 +166,9 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-<<<<<<< HEAD
+
             <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-=======
-            <AnchorPane fx:id="layout_Borrow" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
->>>>>>> 3/handle-logic
+
                <children>
                   <AnchorPane layoutX="194.0" layoutY="83.0" prefHeight="567.0" prefWidth="770.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
                      <effect>
