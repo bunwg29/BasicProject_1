@@ -3,10 +3,11 @@ package org.example.source.DAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import org.example.source.DTO.BorrowListDTO;
 import org.example.source.DTO.BackBookDTO;
+import org.example.source.DTO.BorrowListDTO;
 import org.example.source.database.connectDatabase;
 import org.example.source.model.borrowModel;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.List;
 
 
 public class borrowDataDAO implements borrowDAO {
+    ObservableList<borrowModel> borrowModels = FXCollections.observableArrayList();
+
     @Override
     public int insertBookBorrow(String iduser, int bookId) {
         String insertSql = "INSERT INTO borrowlist (iduser, bookId, databorrow) VALUES (?, ?, ?)";
@@ -59,8 +62,6 @@ public class borrowDataDAO implements borrowDAO {
         }
         return -1;
     }
-
-    ObservableList<borrowModel> borrowModels = FXCollections.observableArrayList();
 
     @Override
     public ObservableList<borrowModel> listBorrow(String iduserr) {
@@ -271,7 +272,7 @@ public class borrowDataDAO implements borrowDAO {
              PreparedStatement ps = con.prepareStatement(sql);
              PreparedStatement ps1 = con.prepareStatement(updateSql);
              PreparedStatement ps2 = con.prepareStatement(deleteBackList);
-             PreparedStatement ps3 = con.prepareStatement(deleteBorrowList);
+             PreparedStatement ps3 = con.prepareStatement(deleteBorrowList)
         ) {
             ps.setInt(1, idborrow);
             ps.setString(2, usernameLogin);

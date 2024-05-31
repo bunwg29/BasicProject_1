@@ -3,8 +3,10 @@ package org.example.source.DAO;
 import javafx.scene.control.Alert;
 import org.example.source.database.connectDatabase;
 import org.example.source.model.bookModel;
+
 import java.sql.*;
 import java.util.ArrayList;
+
 //This class support handle get data of book content in application
 public class bookDataDAO implements bookDAO<bookModel> {
     bookModel book = null;
@@ -43,7 +45,7 @@ public class bookDataDAO implements bookDAO<bookModel> {
         String sql = "UPDATE programmingBook SET bookImage = ?, bookName = ?, bookQuantity = ? WHERE bookId = ?";
 
         try (Connection con = connectDatabase.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);){
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, bookImage);
             ps.setString(2, bookName);
@@ -55,15 +57,16 @@ public class bookDataDAO implements bookDAO<bookModel> {
             alert.setHeaderText("Successfully");
             alert.setContentText("Updated information successfully");
             alert.showAndWait();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void insertBook(int id, String bookImage, String bookName, int bookQuantity) {
         String sql = "INSERT INTO programmingBook VALUES(?,?,?,?)";
         try (Connection con = connectDatabase.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.setString(2, bookImage);
             ps.setString(3, bookName);
@@ -73,26 +76,26 @@ public class bookDataDAO implements bookDAO<bookModel> {
             alert.setHeaderText("Successfully");
             alert.setContentText("Inserted information successfully");
             alert.showAndWait();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Error");
             alert.setContentText("Something went wrong");
             alert.showAndWait();
             e.printStackTrace();
         }
-        }
+    }
 
     @Override
     public boolean findBookId(int id) {
         String sql = "SELECT bookId FROM programmingBook WHERE bookId = ?";
-        try(Connection con = connectDatabase.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);) {
+        try (Connection con = connectDatabase.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return false;
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return true;
@@ -101,14 +104,14 @@ public class bookDataDAO implements bookDAO<bookModel> {
     @Override
     public boolean finLinkImage(String bookImage) {
         String sql = "SELECT bookImage FROM programmingBook WHERE bookImage = ?";
-        try(Connection con = connectDatabase.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);) {
+        try (Connection con = connectDatabase.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, bookImage);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return false;
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return true;

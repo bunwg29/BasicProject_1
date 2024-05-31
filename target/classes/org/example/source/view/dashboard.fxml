@@ -123,7 +123,11 @@
                   <Separator prefWidth="200.0" />
                </children>
             </VBox>
-            <VBox prefHeight="210.0" prefWidth="250.0" />
+            <VBox alignment="CENTER" prefHeight="78.0" prefWidth="250.0">
+               <children>
+                  <Button fx:id="button_signout" mnemonicParsing="false" prefHeight="37.0" prefWidth="134.0" styleClass="button-signout" stylesheets="@../../../../css/dashboard.css" text="Sign out" textFill="WHITE" />
+               </children>
+            </VBox>
             <VBox prefHeight="185.0" prefWidth="250.0" stylesheets="@../../../../css/dashboard.css" />
          </children>
       </VBox>

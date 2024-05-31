@@ -8,17 +8,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.example.source.DAO.*;
+import org.example.source.model.blogModel;
 import org.example.source.model.bookModel;
-import org.example.source.model.*;
+import org.example.source.model.borrowModel;
+import org.example.source.view.dashboard;
 
 import java.awt.*;
 import java.io.IOException;
@@ -35,6 +39,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class dashboardController implements Initializable {
+    // Variable for handle socket process
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 8080;
+    // Variable for handle database process
+    private static bookDataDAO bookDataDAO;
     // Variables for fxml file
     @FXML
     private Button button_Home;
@@ -68,18 +77,14 @@ public class dashboardController implements Initializable {
     private TextField password_update_txt;
     @FXML
     private Button update_info_button;
-    // Variable for handle database process
-    private static bookDataDAO bookDataDAO;
+    @FXML
+    private Button button_signout;
     private List<blogModel> blogs;
     private List<bookModel> books;
     private List<HBox> blogCards;
-
     private borrowDataDAO borrowDataDAO;
     private userDataDAO userDataDAO;
     private borrowModel borrowModel;
-    // Variable for handle socket process
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final int SERVER_PORT = 8080;
     // Variable for handle thread
     private ExecutorService executor;
     private Socket clientSocket;
@@ -136,15 +141,15 @@ public class dashboardController implements Initializable {
             System.out.println("Book ID: " + selectedBorrow.getBookId());
             System.out.println("Borrow Date: " + selectedBorrow.getDataborrow());
             int bookId = Integer.parseInt(selectedBorrow.getBookId());
-            if(borrowDataDAO.checkRequestBack(bookId)){
+            if (borrowDataDAO.checkRequestBack(bookId)) {
                 borrowDataDAO.backBook(userDataDAO.getUserName(loginController.usernameLogin), bookId, borrowDataDAO.findNameBook(bookId));
-                sendMessageToServer("action:" + selectedBorrow.getIdborrow());
+                sendMessageToServer("Request to back book to library with ID: " + selectedBorrow.getIdborrow());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCCESSFULLY");
                 alert.setHeaderText("BACK BOOK");
                 alert.setContentText("You request back book successfully");
                 alert.show();
-            }else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("INFORM");
                 alert.setHeaderText("CONFLICT");
@@ -181,7 +186,7 @@ public class dashboardController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println(loginController.usernameLogin);
-
+                sendMessageToServer("Access home page");
                 // Refresh data when Home button is clicked
                 refreshData();
 
@@ -199,6 +204,7 @@ public class dashboardController implements Initializable {
         // Set event for Borrow button
         button_Borrow.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
+                sendMessageToServer("Access to borrow book");
                 layout_Home.setVisible(false);
                 layout_Borrow.setVisible(true);
                 layout_update.setVisible(false);
@@ -214,6 +220,7 @@ public class dashboardController implements Initializable {
         TableColumn<borrowModel, Void> actionColumn = new TableColumn<>("ACTION");
         actionColumn.setCellFactory(param -> new TableCell<borrowModel, Void>() {
             private final Button actionButton = new Button("BACK");
+
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -231,6 +238,7 @@ public class dashboardController implements Initializable {
 
         button_update.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
+                sendMessageToServer("Access to update information of book");
                 layout_Home.setVisible(false);
                 layout_Borrow.setVisible(false);
                 layout_update.setVisible(true);
@@ -239,14 +247,48 @@ public class dashboardController implements Initializable {
 
         update_info_button.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                if(validateController.isValidGmail(email_update_txt.getText()) && validateController.checkPassword(password_update_txt.getText())) {
-                    userDataDAO.updateUser(loginController.usernameLogin, email_update_txt.getText(), name_update_txt.getText(), password_update_txt.getText());
-                }else {
+                if (validateController.isValidGmail(email_update_txt.getText()) && validateController.checkPassword(password_update_txt.getText()) && name_update_txt.getText() != null) {
+                    sendMessageToServer("Update info successfully");
+                    userDataDAO.updateUser(loginController.usernameLogin, email_update_txt.getText(), password_update_txt.getText(), name_update_txt.getText());
+                } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("INFORM");
                     alert.setHeaderText("NOT CORRECT INPUT");
                     alert.setContentText("Your email or password is wrong");
                     alert.showAndWait();
+                }
+            }
+        });
+
+        button_signout.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm");
+                alert.setHeaderText("Do you want continue?");
+                alert.setContentText("Chose yes to continue and no to cancel");
+
+                ButtonType buttonTypeYes = new ButtonType("Yes");
+                ButtonType buttonTypeNo = new ButtonType("No");
+                alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+                // Display alert and wait user choose
+                ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+
+                // Handle result
+                if (result == buttonTypeYes) {
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("User.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load(), 340, 500);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    stage.setScene(scene);
+                    stage.show();
+
+                    Stage currentStage = (Stage) button_signout.getScene().getWindow();
+                    currentStage.close();
                 }
             }
         });

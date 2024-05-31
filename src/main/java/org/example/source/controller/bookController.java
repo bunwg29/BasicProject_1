@@ -8,22 +8,17 @@ import org.example.source.model.bookModel;
 
 public class bookController {
 
+    @FXML
+    Button button_borrow;
     // Variable from book.fxml file
     @FXML
     private Label bookId;
-
     @FXML
     private ImageView bookImage;
-
     @FXML
     private Label bookName;
-
     @FXML
     private Label bookQuantity;
-
-    @FXML
-    Button button_borrow;
-
     // Variable of book model
     private bookModel book;
 

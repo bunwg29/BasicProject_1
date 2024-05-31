@@ -69,7 +69,9 @@
     -fx-text-fill:#fff;
     -fx-font-family:"comic sans ms";
 }
-
+.button-signout {
+    -fx-background-color: #e12c29;
+}
 .search{
     -fx-background-color:transparent;
     -fx-border-color:linear-gradient(to bottom right, #272b3f, #256b51);

@@ -11,11 +11,10 @@ public class connectDatabase {
         try {
             String url = "jdbc:mySQL://localhost:3306/library_project";
             String user = "root";
-            String password = "";
+            String password = "123456";
 
-            Class.forName("com.mysql.cj.jdbc.Driver") ;
             con = DriverManager.getConnection(url, user, password);
-        }catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return con;

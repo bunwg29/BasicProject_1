@@ -3,7 +3,10 @@ package org.example.source.DAO;
 import javafx.scene.control.Alert;
 import org.example.source.database.connectDatabase;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class userDataDAO implements userDAO {
     // This function use for check user exist in database
@@ -71,9 +74,8 @@ public class userDataDAO implements userDAO {
     @Override
     public void insertUser(int id, String username, String email, String password, String name) {
         String sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
-        try(Connection con = connectDatabase.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql))
-        {
+        try (Connection con = connectDatabase.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.setString(2, username);
             ps.setString(3, email);
@@ -81,7 +83,7 @@ public class userDataDAO implements userDAO {
             ps.setString(5, name);
             ps.setString(6, "user");
             ps.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("Something went wrong");
@@ -93,8 +95,8 @@ public class userDataDAO implements userDAO {
     @Override
     public void updateUser(String username, String email, String password, String name) {
         String sql = "UPDATE user SET email = ?, password = ?, name = ? WHERE username = ?";
-        try(Connection con = connectDatabase.getConnection();
-            PreparedStatement ps = con.prepareStatement(sql);) {
+        try (Connection con = connectDatabase.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, email);
             ps.setString(2, password);
             ps.setString(3, name);
@@ -105,7 +107,7 @@ public class userDataDAO implements userDAO {
             alert.setHeaderText("Successfully");
             alert.setContentText("Updated information successfully");
             alert.showAndWait();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Error");
             alert.setContentText("Something went wrong");

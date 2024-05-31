@@ -26,31 +26,25 @@ import java.util.TimerTask;
 
 public class loginController implements Initializable {
 
+    public static String usernameLogin;
     // Variables for .fxml file
     @FXML
     private Button button_login;
-
     @FXML
     private ImageView close_eye;
-
     @FXML
     private ImageView open_eye;
-
     @FXML
     private TextField pass;
-
     @FXML
     private PasswordField password_txt;
-
     @FXML
     private Button signUpButton;
-
     @FXML
     private TextField username_txt;
     // Variables for handle data
     private userDataDAO dao;
-    public static String usernameLogin;
-    private String password ;
+    private String password;
 
     // Handle event
     @Override
@@ -62,45 +56,44 @@ public class loginController implements Initializable {
         button_login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                String username = username_txt.getText() ;
+                String username = username_txt.getText();
                 String password = pass.isVisible() ? pass.getText() : password_txt.getText();
-               if(dao.check(username, password).equals("user")) {
-                   usernameLogin = username;
-                   Stage stage = new Stage();
-                   FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboard.fxml"));
-                   Scene scene = null;
-                   try {
-                       scene = new Scene(fxmlLoader.load(), 1500, 670);
-                   } catch (IOException e) {
-                       throw new RuntimeException(e);
-                   }
-                   stage.setScene(scene);
-                   stage.show();
+                if (dao.check(username, password).equals("user")) {
+                    usernameLogin = username;
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboard.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load(), 1500, 670);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    stage.setScene(scene);
+                    stage.show();
 
-                   Stage currentStage = (Stage) button_login.getScene().getWindow();
-                   currentStage.close();
-               }else if(dao.check(username_txt.getText(), password_txt.getText()).equals("admin")) {
-                   Stage stage = new Stage();
-                   FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboardAdmin.fxml"));
-                   Scene scene = null;
-                   try {
-                       scene = new Scene(fxmlLoader.load(), 1500, 670);
-                   } catch (IOException e) {
-                       throw new RuntimeException(e);
-                   }
-                   stage.setScene(scene);
-                   stage.show();
+                    Stage currentStage = (Stage) button_login.getScene().getWindow();
+                    currentStage.close();
+                } else if (dao.check(username_txt.getText(), password_txt.getText()).equals("admin")) {
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboardAdmin.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load(), 1500, 670);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    stage.setScene(scene);
+                    stage.show();
 
-                   Stage currentStage = (Stage) button_login.getScene().getWindow();
-                   currentStage.close();
-               }
-               else{
-                   Alert alert = new Alert(Alert.AlertType.WARNING);
-                   alert.setTitle("Error");
-                   alert.setHeaderText("Error with input");
-                   alert.setContentText("Username or Password is incorrect");
-                   alert.show();
-               }
+                    Stage currentStage = (Stage) button_login.getScene().getWindow();
+                    currentStage.close();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error with input");
+                    alert.setContentText("Username or Password is incorrect");
+                    alert.show();
+                }
             }
         });
 
@@ -124,15 +117,16 @@ public class loginController implements Initializable {
             }
         });
     }
+
     @FXML
     void HidePasswordOnAction(KeyEvent event) {
-        password = password_txt.getText() ;
+        password = password_txt.getText();
         pass.setText(password);
     }
 
     @FXML
     void ShowPasswordOnAction(KeyEvent event) {
-        password = pass.getText() ;
+        password = pass.getText();
         password_txt.setText(password);
     }
 

@@ -7,7 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -59,6 +62,11 @@ public class signupController implements Initializable {
     private userDataDAO userData;
     private String password;
 
+    public static int generateRandomNumber() {
+        Random random = new Random();
+        return random.nextInt(100000 - 1 + 1) + 1;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialization variable of data
@@ -69,18 +77,18 @@ public class signupController implements Initializable {
         signup_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                String username = username_txt.getText() ;
-                String email = email_txt.getText() ;
-                String password = pass.isVisible() ? pass.getText() : password_txt.getText() ;
-                String nameOfUser = nameofuser_txt.getText() ;
-                if(validateController.isAlphanumeric(username) && validateController.isValidGmail(email) && validateController.checkPassword(password)){
+                String username = username_txt.getText();
+                String email = email_txt.getText();
+                String password = pass.isVisible() ? pass.getText() : password_txt.getText();
+                String nameOfUser = nameofuser_txt.getText();
+                if (validateController.isAlphanumeric(username) && validateController.isValidGmail(email) && validateController.checkPassword(password)) {
                     userData.insertUser(generateRandomNumber(), username, email, password, nameOfUser);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("SUCESSFULLY");
                     alert.setHeaderText("Congratulations!");
                     alert.setContentText("Please, back to login stage to login your account");
                     alert.showAndWait();
-                }else {
+                } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Error");
                     alert.setHeaderText("Your input of value is not according to the request");
@@ -109,19 +117,16 @@ public class signupController implements Initializable {
             }
         });
     }
-    public static int generateRandomNumber() {
-        Random random = new Random();
-        return random.nextInt(100000 - 1 + 1) + 1;
-    }
+
     @FXML
     void HidePasswordOnAction(KeyEvent event) {
-        password = password_txt.getText() ;
+        password = password_txt.getText();
         pass.setText(password);
     }
 
     @FXML
     void ShowPasswordOnAction(KeyEvent event) {
-        password = pass.getText() ;
+        password = pass.getText();
         password_txt.setText(password);
     }
 
