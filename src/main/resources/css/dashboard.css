@@ -82,3 +82,30 @@
 .search:focused{
     -fx-border-width:2px;
 }
+
+.information_book{
+    -fx-background-color: #333333;
+    -fx-background-radius: 13px;
+    -fx-text-fill: #b2b2b2;
+}
+
+
+.information_button_insert{
+    -fx-background-color:  #01d95a;
+    -fx-background-radius: 25px ;
+}
+.information_button_insert:hover{
+     -fx-background-color:  #A1DD70;
+}
+
+.information_button_update {
+    -fx-background-radius: 25px ;
+    -fx-background-color :  tranparent;
+    -fx-border-color:  white;
+    -fx-border-width:2px;
+    -fx-border-radius: 25px;
+}
+.information_button_update:hover{
+    -fx-background-color:#686D76;
+    -fx-border-color: #eeeeee;
+}
