@@ -89,4 +89,28 @@ public class userDataDAO implements userDAO {
             alert.showAndWait();
         }
     }
+
+    @Override
+    public void updateUser(String username, String email, String password, String name) {
+        String sql = "UPDATE user SET email = ?, password = ?, name = ? WHERE username = ?";
+        try(Connection con = connectDatabase.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ps.setString(3, name);
+            ps.setString(4, username);
+            ps.executeUpdate();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Successfully");
+            alert.setContentText("Updated information successfully");
+            alert.showAndWait();
+        }catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error");
+            alert.setContentText("Something went wrong");
+            alert.showAndWait();
+            e.printStackTrace();
+        }
+    }
 }

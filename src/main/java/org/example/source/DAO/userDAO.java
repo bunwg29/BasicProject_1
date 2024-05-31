@@ -10,4 +10,6 @@ public interface userDAO {
 
     // Method to add new user account to application
     public void insertUser(int id, String username, String email, String password, String name);
+    // Method use for update information of user
+    public void updateUser(String username, String email, String password, String name);
 }

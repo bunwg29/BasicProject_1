@@ -90,11 +90,11 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="button_Borrow" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Favourite" textFill="WHITE">
+                  <Button fx:id="button_Borrow" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Send Request" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../image/star.png" />
+                              <Image url="@../../../../image/request.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -105,11 +105,11 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Service" textFill="WHITE">
+                  <Button fx:id="button_update" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Personal Information" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../image/service.png" />
+                              <Image url="@../../../../image/personal-information.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -166,7 +166,11 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
+<<<<<<< HEAD
             <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+=======
+            <AnchorPane fx:id="layout_Borrow" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+>>>>>>> 3/handle-logic
                <children>
                   <AnchorPane layoutX="194.0" layoutY="83.0" prefHeight="567.0" prefWidth="770.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
                      <effect>
@@ -195,6 +199,19 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="layout_update" layoutX="10.0" layoutY="10.0" prefHeight="733.6" prefWidth="1156.8">
+               <children>
+                  <Label layoutX="285.0" layoutY="52.0" prefHeight="50.0" prefWidth="574.0" text="UPDATE PERSON INFORMATION">
+                     <font>
+                        <Font name="Berlin Sans FB Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="email_update_txt" layoutX="287.0" layoutY="135.0" prefHeight="62.0" prefWidth="578.0" />
+                  <TextField fx:id="password_update_txt" layoutX="286.0" layoutY="237.0" prefHeight="62.0" prefWidth="581.0" />
+                  <TextField fx:id="name_update_txt" layoutX="284.0" layoutY="365.0" prefHeight="62.0" prefWidth="589.0" />
+                  <Button fx:id="update_info_button" layoutX="742.0" layoutY="449.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="128.0" text="Button" />
                </children>
             </AnchorPane>
          </children>
