@@ -171,7 +171,7 @@
                </children>
             </AnchorPane>
 
-            <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
                <children>
                   <AnchorPane layoutX="194.0" layoutY="83.0" prefHeight="567.0" prefWidth="770.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
@@ -203,17 +203,64 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="layout_update" layoutX="10.0" layoutY="10.0" prefHeight="733.6" prefWidth="1156.8">
+            <AnchorPane fx:id="layout_update" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="285.0" layoutY="52.0" prefHeight="50.0" prefWidth="574.0" text="UPDATE PERSON INFORMATION">
-                     <font>
-                        <Font name="Berlin Sans FB Bold" size="36.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="email_update_txt" layoutX="287.0" layoutY="135.0" prefHeight="62.0" prefWidth="578.0" />
-                  <TextField fx:id="password_update_txt" layoutX="286.0" layoutY="237.0" prefHeight="62.0" prefWidth="581.0" />
-                  <TextField fx:id="name_update_txt" layoutX="284.0" layoutY="365.0" prefHeight="62.0" prefWidth="589.0" />
-                  <Button fx:id="update_info_button" layoutX="742.0" layoutY="449.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="128.0" text="Button" />
+                  <AnchorPane layoutX="323.0" layoutY="87.0" prefHeight="559.0" prefWidth="511.0" style="-fx-background-color: #1a1a1a; -fx-background-radius: 20px;">
+                     <children>
+                        <Label layoutX="15.0" layoutY="38.0" prefHeight="50.0" prefWidth="481.0" text="UPDATE PERSON INFORMATION" textFill="WHITE">
+                           <font>
+                              <Font name="Berlin Sans FB Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="email_update_txt" layoutX="92.0" layoutY="127.0" prefHeight="53.0" prefWidth="380.0" promptText="Email" style="-fx-background-color: #333333; -fx-background-radius: 17px; -fx-text-fill: #b2b2b2;">
+                           <font>
+                              <Font name="Calibri Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </TextField>
+                        <TextField fx:id="password_update_txt" layoutX="92.0" layoutY="231.0" prefHeight="53.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: #333333; -fx-background-radius: 17px; -fx-text-fill: #b2b2b2;">
+                           <font>
+                              <Font name="Calibri Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </TextField>
+                        <TextField fx:id="name_update_txt" layoutX="92.0" layoutY="333.0" prefHeight="53.0" prefWidth="380.0" promptText="Name" style="-fx-background-color: #333333; -fx-background-radius: 17px; -fx-text-fill: #b2b2b2;">
+                           <font>
+                              <Font name="Calibri Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </TextField>
+                        <Button fx:id="update_info_button" layoutX="192.0" layoutY="448.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="128.0" style="-fx-background-radius: 20px; -fx-background-color: #01d95a;" text="UPDATE" textFill="WHITE">
+                           <font>
+                              <Font name="Calibri Bold" size="22.0" />
+                           </font>
+                        </Button>
+                        <ImageView fitHeight="42.0" fitWidth="38.0" layoutX="41.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/email.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="42.0" fitWidth="38.0" layoutX="43.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/padlock4.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="81.0" fitWidth="39.0" layoutX="42.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/id-card.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
