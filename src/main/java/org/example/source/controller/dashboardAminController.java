@@ -99,18 +99,6 @@ public class dashboardAminController implements Initializable {
     private final ObservableList<BackBookDTO> backBookData = FXCollections.observableArrayList(); // ObservableList for backBook data
     private Socket clientSocket;
 
-    // method use for check connection usually in dashboard in view package to decide display dashboard
-    public boolean connect() {
-        try (Socket clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT)) {
-            System.out.println("Connected to server: " + clientSocket.getRemoteSocketAddress());
-            return true;
-        } catch (IOException e) {
-            System.err.println("Error connecting to server: " + e.getMessage());
-            return false;
-        }
-    }
-
-
     // Method close connection between client and sever
     private void closeConnection() {
         if (clientSocket != null) {

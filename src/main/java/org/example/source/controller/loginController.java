@@ -18,7 +18,11 @@ import javafx.stage.Stage;
 import org.example.source.DAO.userDataDAO;
 import org.example.source.view.dashboard;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -26,7 +30,7 @@ import java.util.TimerTask;
 
 public class loginController implements Initializable {
 
-    public static String usernameLogin;
+    private Socket clientSocket;
     // Variables for .fxml file
     @FXML
     private Button button_login;
@@ -45,10 +49,22 @@ public class loginController implements Initializable {
     // Variables for handle data
     private userDataDAO dao;
     private String password;
+    private String username;
 
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 8080;
     // Handle event
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+            System.out.println("Connected to server: " + clientSocket.getRemoteSocketAddress());
+        } catch (IOException e) {
+            System.err.println("Error connecting to server: " + e.getMessage());
+            // Xử lý lỗi
+        }
+
         // Initialization variables data
         dao = new userDataDAO();
 
@@ -56,23 +72,44 @@ public class loginController implements Initializable {
         button_login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                String username = username_txt.getText();
+                username = username_txt.getText();
                 String password = pass.isVisible() ? pass.getText() : password_txt.getText();
                 if (dao.check(username, password).equals("user")) {
-                    usernameLogin = username;
-                    Stage stage = new Stage();
-                    FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboard.fxml"));
-                    Scene scene = null;
-                    try {
-                        scene = new Scene(fxmlLoader.load(), 1500, 670);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    stage.setScene(scene);
-                    stage.show();
+                    try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
-                    Stage currentStage = (Stage) button_login.getScene().getWindow();
-                    currentStage.close();
+                        // Gửi username đến ServerProcess
+                        out.println("login:" + username);
+
+                        // Nhận phản hồi từ ServerProcess
+                        String response = in.readLine();
+                        if (response.equals("login:success")) {
+                            // Tạo scene mới cho dashboard
+                            Stage stage = new Stage();
+                            FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboard.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load(), 1500, 670);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            // Truyền socket và username vào dashboardController
+                            dashboardController dashboardController = fxmlLoader.getController();
+                            dashboardController.setUsername(username);
+                            dashboardController.setClientSocket(clientSocket);
+
+                            stage.setScene(scene);
+                            stage.show();
+
+                            // Đóng cửa sổ login
+                            Stage currentStage = (Stage) button_login.getScene().getWindow();
+                            currentStage.close();
+                        }
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 } else if (dao.check(username_txt.getText(), password_txt.getText()).equals("admin")) {
                     Stage stage = new Stage();
                     FXMLLoader fxmlLoader = new FXMLLoader(dashboard.class.getResource("dashboardAdmin.fxml"));

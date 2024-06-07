@@ -1,5 +1,7 @@
 package org.example.source.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,9 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -25,8 +27,10 @@ import org.example.source.model.borrowModel;
 import org.example.source.view.dashboard;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
@@ -39,6 +43,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class dashboardController implements Initializable {
+
+    private Socket clientSocket;
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+
     // Variable for handle socket process
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 8080;
@@ -80,16 +92,23 @@ public class dashboardController implements Initializable {
     @FXML
     private Button button_signout;
     private List<blogModel> blogs;
-    private List<bookModel> books;
+    private List<bookModel> books = new ArrayList<>();;
     private List<HBox> blogCards;
     private borrowDataDAO borrowDataDAO;
     private userDataDAO userDataDAO;
     private borrowModel borrowModel;
     // Variable for handle thread
     private ExecutorService executor;
-    private Socket clientSocket;
     private blogController blogController;
     private bookController currentBookController;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    private String username; // Biến lưu trữ username
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     // Check connection between client and sever to display application
     public boolean connect() {
@@ -117,12 +136,22 @@ public class dashboardController implements Initializable {
     // Send message to server function and print on client console
     private void sendMessageToServer(String message) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(clientSocket.getOutputStream());
-            outputStreamWriter.write(message + "\n");
-            outputStreamWriter.flush();
+            out.println(message);
             System.out.println("Client on actioning: " + message);
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("Error sending message: " + e.getMessage());
+        }
+    }
+
+    // Receive message from server function and print on client console
+    private String receiveMessageFromServer() {
+        try {
+            String message = in.readLine();
+            System.out.println("Server: " + message);
+            return message;
+        } catch (IOException e) {
+            System.err.println("Error receiving message: " + e.getMessage());
+            return null;
         }
     }
 
@@ -141,14 +170,15 @@ public class dashboardController implements Initializable {
             System.out.println("Book ID: " + selectedBorrow.getBookId());
             System.out.println("Borrow Date: " + selectedBorrow.getDataborrow());
             int bookId = Integer.parseInt(selectedBorrow.getBookId());
-            if (borrowDataDAO.checkRequestBack(bookId)) {
-                borrowDataDAO.backBook(userDataDAO.getUserName(loginController.usernameLogin), bookId, borrowDataDAO.findNameBook(bookId));
-                sendMessageToServer("Request to back book to library with ID: " + selectedBorrow.getIdborrow());
+            sendMessageToServer("backBook:" + bookId + "," + borrowDataDAO.findNameBook(bookId));
+            String serverResponse = receiveMessageFromServer();
+            if (serverResponse.equals("backBook:success")) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("SUCCESSFULLY");
                 alert.setHeaderText("BACK BOOK");
                 alert.setContentText("You request back book successfully");
                 alert.show();
+                updateBorrowList(); // Update the borrow list
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("INFORM");
@@ -166,16 +196,20 @@ public class dashboardController implements Initializable {
     // Controller for action on dashboard
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+/*        System.out.println("Username: " + username);*/
         try {
             clientSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
             System.out.println("Connected to server: " + clientSocket.getRemoteSocketAddress());
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (IOException e) {
             System.err.println("Error connecting to server: " + e.getMessage());
             closeConnection();
         }
         executor = Executors.newFixedThreadPool(10);
-        blogs = new ArrayList<>(blog());
-        books = new ArrayList<>(book());
+        blogs = new ArrayList<>();
+        books = new ArrayList<>();
         blogCards = new ArrayList<>();
         borrowModel = new borrowModel();
         borrowDataDAO = new borrowDataDAO();
@@ -185,11 +219,13 @@ public class dashboardController implements Initializable {
         button_Home.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println(loginController.usernameLogin);
-                sendMessageToServer("Access home page");
-                // Refresh data when Home button is clicked
-                refreshData();
-
+                System.out.println(username);
+                sendMessageToServer("getBooks");
+                String bookData = receiveMessageFromServer();
+                sendMessageToServer("getBlogs");
+                String blogData = receiveMessageFromServer();
+                updateBooks(bookData);
+                updateBlogs(blogData);
                 // Visible for home in dashboard
                 layout_Home.setVisible(true);
                 layout_Borrow.setVisible(false);
@@ -204,11 +240,13 @@ public class dashboardController implements Initializable {
         // Set event for Borrow button
         button_Borrow.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                sendMessageToServer("Access to borrow book");
+                sendMessageToServer("getBorrowList:");
+                String borrowData = receiveMessageFromServer();
+                updateBorrowList(borrowData);
                 layout_Home.setVisible(false);
                 layout_Borrow.setVisible(true);
                 layout_update.setVisible(false);
-                updateBorrowList(); // Update the list of borrow books when the Borrow button is clicked
+                // Update the list of borrow books when the Borrow button is clicked
             }
         });
 
@@ -238,7 +276,6 @@ public class dashboardController implements Initializable {
 
         button_update.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
-                sendMessageToServer("Access to update information of book");
                 layout_Home.setVisible(false);
                 layout_Borrow.setVisible(false);
                 layout_update.setVisible(true);
@@ -248,8 +285,21 @@ public class dashboardController implements Initializable {
         update_info_button.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
                 if (validateController.isValidGmail(email_update_txt.getText()) && validateController.checkPassword(password_update_txt.getText()) && name_update_txt.getText() != null) {
-                    sendMessageToServer("Update info successfully");
-                    userDataDAO.updateUser(loginController.usernameLogin, email_update_txt.getText(), password_update_txt.getText(), name_update_txt.getText());
+                    sendMessageToServer("updateInfo:" + email_update_txt.getText() + "," + password_update_txt.getText() + "," + name_update_txt.getText());
+                    String serverResponse = receiveMessageFromServer();
+                    if (serverResponse.equals("updateInfo:success")) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("SUCCESSFULLY");
+                        alert.setHeaderText("UPDATE INFO");
+                        alert.setContentText("Update your information successfully");
+                        alert.show();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("INFORM");
+                        alert.setHeaderText("NOT CORRECT INPUT");
+                        alert.setContentText("Your email or password is wrong");
+                        alert.showAndWait();
+                    }
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("INFORM");
@@ -298,20 +348,21 @@ public class dashboardController implements Initializable {
     private void handleBorrowButtonClick(ActionEvent event, bookController bookController) {
         String bookId = bookController.getBookId();
         int bookIdInt = Integer.parseInt(bookId);
-        if (borrowDataDAO.checkBookQuantity(bookIdInt) > 0) {
-            // Send request to server
-            sendMessageToServer("borrow:" + bookId);
-            // Add book borrow record to database
-            int newIdBorrow = borrowDataDAO.insertBookBorrow(loginController.usernameLogin, bookIdInt);
+        sendMessageToServer("borrow:" + bookId);
+        String serverResponse = receiveMessageFromServer();
+        if (serverResponse.startsWith("borrow:")) {
+            // Borrow successful
+            int newIdBorrow = Integer.parseInt(serverResponse.substring(7));
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("SUCCESSFULLY");
             alert.setHeaderText("BORROW");
-            alert.setContentText("Borrowed " + newIdBorrow + " successfully");
+            alert.setContentText("Borrowed " +  newIdBorrow + " successfully");
             alert.show();
 
             // Refresh data after borrowing a book
             refreshData();
         } else {
+            // Borrow failed
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("UNSUCCESSFULLY");
             alert.setHeaderText("BORROW");
@@ -354,8 +405,88 @@ public class dashboardController implements Initializable {
     // Update the borrow list from the database
     private void updateBorrowList() {
         ObservableList<borrowModel> borrowModels = FXCollections.observableArrayList();
-        borrowModels.addAll(borrowDataDAO.listBorrow(loginController.usernameLogin));
+        borrowModels.addAll(borrowDataDAO.listBorrow(username));
         borrowListTable.setItems(borrowModels);
+    }
+
+    private void updateBorrowList(String borrowData) {
+        ObservableList<borrowModel> borrowModels = FXCollections.observableArrayList();
+        Gson gson = new Gson();
+        List<borrowModel> borrowList = gson.fromJson(borrowData, new TypeToken<List<borrowModel>>() {}.getType());
+        borrowModels.addAll(borrowList);
+        borrowListTable.setItems(borrowModels);
+    }
+
+    private void updateBlogs(String blogData) {
+        Gson gson = new Gson();
+        List<blogModel> blogsList = gson.fromJson(blogData, new TypeToken<List<blogModel>>() {}.getType());
+        blogs = blogsList;
+        hbox_Blog.getChildren().clear();
+        int colBlog = 0;
+        int rowBlog = 1;
+        for (int i = 0; i < blogs.size(); i++) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/blog.fxml"));
+                HBox blogCard = fxmlLoader.load();
+                blogCards.add(blogCard);
+                blogController = fxmlLoader.getController();
+                blogController.setData(blogs.get(i));
+                Button visitButton = blogController.getVisitButton();
+                int finalI = i;
+                visitButton.setOnAction(event -> {
+                    try {
+                        Desktop.getDesktop().browse(new URI(blogs.get(finalI).getBlogLink()));
+                        sendMessageToServer("client is accessing: " + blogs.get(finalI).getBlogLink());
+                    } catch (Exception e) {
+                        System.err.println("Error open browser" + e.getMessage());
+                    }
+                });
+                hbox_Blog.getChildren().add(blogCard);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateBooks(String bookData) {
+        Gson gson = new Gson();
+        List<bookModel> bookList = gson.fromJson(bookData, new TypeToken<List<bookModel>>() {}.getType());
+        books = bookList; // Cập nhật books
+
+        // Kiểm tra xem books đã được cập nhật chưa
+        if (books != null && !books.isEmpty()) {
+            bookContainer.getChildren().clear();
+            int colBook = 0;
+            int rowBook = 1;
+            for (bookModel book : books) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/book.fxml"));
+                    VBox cardBook = fxmlLoader.load();
+
+                    currentBookController = fxmlLoader.getController();
+                    currentBookController.setData(book);
+
+                    bookController cardBookController = currentBookController;
+                    cardBookController.button_borrow.setOnAction(event -> {
+                        handleBorrowButtonClick(event, cardBookController);
+                    });
+
+                    if (colBook == 6) {
+                        colBook = 0;
+                        ++rowBook;
+                    }
+                    bookContainer.add(cardBook, colBook++, rowBook);
+                    GridPane.setMargin(cardBook, new Insets(10));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            // Hiển thị thông báo lỗi hoặc xử lý trường hợp dữ liệu chưa được cập nhật
+            System.err.println("Dữ liệu sách chưa được cập nhật");
+        }
     }
 
     // Refresh and reload data for both blogs and books
@@ -368,68 +499,13 @@ public class dashboardController implements Initializable {
         bookContainer.getChildren().clear();
         hbox_Blog.getChildren().clear();
 
-        try {
-            // Reload blog data (You should implement this part based on your logic)
-            int colBlog = 0;
-            int rowBlog = 1;
-            for (int i = 0; i < blogs.size(); i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/blog.fxml"));
-                HBox blogCard = fxmlLoader.load();
-                blogCards.add(blogCard);
-                blogController = fxmlLoader.getController();
-                blogController.setData(blog().get(i));
-                Button visitButton = blogController.getVisitButton();
-                int finalI = i;
-                visitButton.setOnAction(event -> {
-                    try {
-                        Desktop.getDesktop().browse(new URI(blogs.get(finalI).getBlogLink()));
-                        sendMessageToServer("client is accessing: " + blogs.get(finalI).getBlogLink());
-                    } catch (Exception e) {
-                        System.err.println("Error open browser" + e.getMessage());
-                    }
-                });
-                hbox_Blog.getChildren().add(blogCard);
-            }
+        sendMessageToServer("getBooks");
+        String bookData = receiveMessageFromServer();
+        sendMessageToServer("getBlogs");
+        String blogData = receiveMessageFromServer();
+        updateBooks(bookData);
+        updateBlogs(blogData);
 
-            // Reload book data
-            int colBook = 0;
-            int rowBook = 1;
-            for (bookModel book : books) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/org/example/source/view/book.fxml"));
-                VBox cardBook = fxmlLoader.load();
-
-                currentBookController = fxmlLoader.getController();
-                currentBookController.setData(book);
-
-                bookController cardBookController = currentBookController;
-                cardBookController.button_borrow.setOnAction(event -> {
-                    handleBorrowButtonClick(event, cardBookController);
-                });
-
-                if (colBook == 6) {
-                    colBook = 0;
-                    ++rowBook;
-                }
-                bookContainer.add(cardBook, colBook++, rowBook);
-                GridPane.setMargin(cardBook, new Insets(10));
-            }
-
-            StringBuilder bookData = new StringBuilder();
-            StringBuilder blogData = new StringBuilder();
-            for (bookModel book : books) {
-                bookData.append(book.toString()).append("\n");
-            }
-
-            for (blogModel blog : blogs) {
-                blogData.append(blog.toString()).append("\n");
-            }
-            sendMessageToServer("Press home button");
-            sendMessageToServer(bookData.toString());
-            sendMessageToServer(blogData.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sendMessageToServer("Press home button");
     }
 }

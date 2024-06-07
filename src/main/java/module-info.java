@@ -4,6 +4,8 @@ module org.example.source {
     requires java.desktop;
     requires java.sql;
     requires org.apache.poi.poi;
+    requires org.json;
+    requires com.google.gson;
 
 
     opens org.example.source.view to javafx.fxml;
