@@ -188,7 +188,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" stylesheets="@../../../../css/dashboard.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TableView fx:id="backlist_table" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
                      <columns>
@@ -205,7 +205,7 @@
                      </font>
                   </Label>
                </children></AnchorPane>
-            <AnchorPane fx:id="services_layout" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="services_layout" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane layoutX="337.0" layoutY="87.0" prefHeight="560.0" prefWidth="483.0" style="-fx-background-color: #1a1a1a; -fx-background-radius: 20px;">
                      <children>
