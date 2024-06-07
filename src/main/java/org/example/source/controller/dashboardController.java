@@ -248,6 +248,11 @@ public class dashboardController implements Initializable {
         update_info_button.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
                 if (validateController.isValidGmail(email_update_txt.getText()) && validateController.checkPassword(password_update_txt.getText()) && name_update_txt.getText() != null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("INFORM");
+                    alert.setHeaderText("SUCCESSFULLY");
+                    alert.setContentText("You updated information sucessfully");
+                    alert.showAndWait();
                     sendMessageToServer("Update info successfully");
                     userDataDAO.updateUser(loginController.usernameLogin, email_update_txt.getText(), password_update_txt.getText(), name_update_txt.getText());
                 } else {
