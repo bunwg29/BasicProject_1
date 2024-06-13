@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.example.source.database.connectDatabase;
-
+import org.apache.poi.ss.usermodel.DataFormat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 
 public class ExportExelController {
     public void exportborrowExel(File fileselected) {
@@ -29,7 +30,7 @@ public class ExportExelController {
             // Create workbook
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("Borrowlist");
-
+            DataFormat format = workbook.createDataFormat();
             // Add title of column
             Row headerRow = sheet.createRow(0);
             headerRow.createCell(0).setCellValue("idborrow");
@@ -49,6 +50,9 @@ public class ExportExelController {
                 row.createCell(3).setCellValue(rs.getTimestamp("databorrow"));
                 row.createCell(4).setCellValue(rs.getString("username"));
                 row.createCell(5).setCellValue(rs.getString("bookName"));
+
+                sheet.getRow(rowNum - 1).getCell(3).setCellStyle(workbook.createCellStyle());
+                sheet.getRow(rowNum - 1).getCell(3).getCellStyle().setDataFormat(format.getFormat("dd/MM/yyyy"));
             }
 
             // Save exel file
@@ -85,7 +89,7 @@ public class ExportExelController {
             // Create workbook
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("Backlist");
-
+            DataFormat format = workbook.createDataFormat();
             // Add title column
             Row headerRow = sheet.createRow(0);
             headerRow.createCell(0).setCellValue("idborrow");
@@ -103,6 +107,9 @@ public class ExportExelController {
                 row.createCell(2).setCellValue(rs.getInt("bookId"));
                 row.createCell(3).setCellValue(rs.getString("bookName"));
                 row.createCell(4).setCellValue(rs.getTimestamp("databorrow"));
+
+                sheet.getRow(rowNum - 1).getCell(4).setCellStyle(workbook.createCellStyle());
+                sheet.getRow(rowNum - 1).getCell(4).getCellStyle().setDataFormat(format.getFormat("dd/MM/yyyy"));
             }
 
             // Save exel file

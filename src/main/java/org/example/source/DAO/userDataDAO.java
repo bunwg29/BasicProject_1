@@ -4,38 +4,37 @@ import javafx.scene.control.Alert;
 import org.example.source.database.connectDatabase;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class userDataDAO implements userDAO {
-    // This function use for check user exist in database
+    // This function is used to check if a user exists in the database.
     @Override
     public String check(String username, String password) {
-        String userType = "failed"; // Mặc định là đăng nhập thất bại
+        String userType = "failed"; // Default to login failed
         try (Connection con = connectDatabase.getConnection()) {
-            // 1. Kiểm tra admin
-            String adminQuery = "SELECT role FROM admin WHERE username = ? AND password = ?"; // Lấy role từ bảng admin
+            // 1. Check for admin
+            String adminQuery = "SELECT role FROM admin WHERE username = ? AND password = ?"; // Get role from the admin table
             try (PreparedStatement ps = con.prepareStatement(adminQuery)) {
                 ps.setString(1, username);
-                ps.setString(2, password); // Lưu ý: Nên băm mật khẩu trước khi so sánh
+                ps.setString(2, password); // Note: Hash the password before comparing
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         userType = rs.getString("role");
                     }
                 }
             }
-            // 2. Nếu không phải admin, kiểm tra người dùng thông thường
+            // 2. If not admin, check for regular user
             if (userType.equals("failed")) {
-                String userQuery = "SELECT password, role FROM user WHERE username = ?"; // Lấy role từ bảng user
+                String userQuery = "SELECT password, role FROM user WHERE username = ?"; // Get role from the user table
                 try (PreparedStatement ps = con.prepareStatement(userQuery)) {
                     ps.setString(1, username);
                     try (ResultSet rs = ps.executeQuery()) {
                         if (rs.next()) {
-                            String hashedPassword = rs.getString("password"); // Lấy mật khẩu đã băm
-                            if (BCrypt.checkpw(password, hashedPassword)) { // So sánh mật khẩu băm
+                            String hashedPassword = rs.getString("password"); // Get the hashed password
+                            if (BCrypt.checkpw(password, hashedPassword)) { // Compare the hashed passwords
                                 userType = rs.getString("role");
                             }
                         }
@@ -67,11 +66,6 @@ public class userDataDAO implements userDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            /*Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Something went wrong");
-            alert.setContentText("Something went wrong");
-            alert.showAndWait();*/
         }
         return name.toString();
     }
@@ -105,7 +99,7 @@ public class userDataDAO implements userDAO {
         try (Connection con = connectDatabase.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, email);
-            // Băm mật khẩu mới trước khi lưu
+            // Hash the new password before saving
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             ps.setString(2, hashedPassword);
             ps.setString(3, name);
