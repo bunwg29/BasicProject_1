@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -44,11 +45,26 @@ public class dashboardAminController implements Initializable {
     @FXML
     private TableColumn<BorrowListDTO, Integer> bookid_col;
     @FXML
-    private TableColumn<BorrowListDTO, Timestamp> dateborrow_col;
-    @FXML
     private TableColumn<BorrowListDTO, String> username_col;
     @FXML
-    private TableColumn<BorrowListDTO, String> bookname_col;
+    private TableColumn<BorrowListDTO, Integer> bookname_col;
+    @FXML
+    private TableColumn<BorrowListDTO, Timestamp> dayExpiration;
+    @FXML
+    private TableColumn<BorrowListDTO, Timestamp> dayBorrow;
+
+    @FXML
+    private TableView<BackBookDTO> backlist_table;
+    @FXML
+    private TableColumn<BackBookDTO, Integer> idback_col; // Use BackBookDTO
+    @FXML
+    private TableColumn<BackBookDTO, String> usernameback_col; // Use BackBookDTO
+    @FXML
+    private TableColumn<BackBookDTO, Integer> bookidback_col; // Use BackBookDTO
+    @FXML
+    private TableColumn<BackBookDTO, String> booknameback_col; // Use BackBookDTO
+    @FXML
+    private TableColumn<BackBookDTO, Timestamp> dateReturnBook;
     @FXML
     private AnchorPane borrowlist_layout;
     @FXML
@@ -61,18 +77,6 @@ public class dashboardAminController implements Initializable {
     private AnchorPane services_layout;
     @FXML
     private AnchorPane backlist_layout;
-    @FXML
-    private TableView<BackBookDTO> backlist_table;
-    @FXML
-    private TableColumn<BackBookDTO, Integer> idback_col; // Use BackBookDTO
-    @FXML
-    private TableColumn<BackBookDTO, String> usernameback_col; // Use BackBookDTO
-    @FXML
-    private TableColumn<BackBookDTO, Integer> bookidback_col; // Use BackBookDTO
-    @FXML
-    private TableColumn<BackBookDTO, String> booknameback_col; // Use BackBookDTO
-    @FXML
-    private TableColumn<BackBookDTO, Timestamp> dateex_col; // Use BackBookDTO
     @FXML
     private TextField update_book_Id;
     @FXML
@@ -91,6 +95,7 @@ public class dashboardAminController implements Initializable {
     private Button button_export_return;
     @FXML
     private Button button_signout;
+
     // Variables use for handle data in database
     private borrowDataDAO borrowDataDAO;
     private bookDataDAO bookDataDAO;
@@ -343,10 +348,10 @@ public class dashboardAminController implements Initializable {
         idborrow_col.setCellValueFactory(new PropertyValueFactory<>("idBorrow"));
         iduser_col.setCellValueFactory(new PropertyValueFactory<>("idUser"));
         bookid_col.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-        dateborrow_col.setCellValueFactory(new PropertyValueFactory<>("dateBorrow"));
         username_col.setCellValueFactory(new PropertyValueFactory<>("userName"));
         bookname_col.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-
+        dayExpiration.setCellValueFactory(new PropertyValueFactory<>("dayEx"));
+        dayBorrow.setCellValueFactory(new PropertyValueFactory<>("dateBorrow"));
         borrowlist_table.setItems(borrowListData);
     }
 
@@ -363,6 +368,7 @@ public class dashboardAminController implements Initializable {
             System.out.println("Date Borrow: " + borrowItem.getDateBorrow());
             System.out.println("User Name: " + borrowItem.getUserName());
             System.out.println("Book Name: " + borrowItem.getBookName());
+            System.out.println("Expiration Date: " + borrowItem.getDateBorrow());
             borrowDataDAO.insertToBorrowListTotal(borrowItem.getIdBorrow(), borrowItem.getIdUser(), borrowItem.getBookId(), borrowItem.getDateBorrow(), borrowItem.getUserName(), borrowItem.getBookName());
         } else {
             System.err.println("No row selected in the table.");
@@ -375,8 +381,7 @@ public class dashboardAminController implements Initializable {
         usernameback_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         bookidback_col.setCellValueFactory(new PropertyValueFactory<>("bookId"));
         booknameback_col.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-        dateex_col.setCellValueFactory(new PropertyValueFactory<>("dateBack"));
-
+        dateReturnBook.setCellValueFactory(new PropertyValueFactory<>("dateBack"));
         backlist_table.setItems(backBookData);
     }
 

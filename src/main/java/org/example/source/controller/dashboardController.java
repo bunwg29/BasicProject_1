@@ -31,6 +31,7 @@ import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -135,27 +136,43 @@ public class dashboardController implements Initializable {
 
         // Check if a row is selected
         if (selectedBorrow != null) {
+
             // Handle action based on borrowModel
             // Example: display borrowModel information in a dialog, delete borrowModel from database, etc.
             System.out.println("Borrow ID: " + selectedBorrow.getIdborrow());
             System.out.println("Book ID: " + selectedBorrow.getBookId());
             System.out.println("Borrow Date: " + selectedBorrow.getDataborrow());
             int bookId = Integer.parseInt(selectedBorrow.getBookId());
-            if (borrowDataDAO.checkRequestBack(bookId)) {
-                borrowDataDAO.backBook(userDataDAO.getUserName(loginController.usernameLogin), bookId, borrowDataDAO.findNameBook(bookId));
-                sendMessageToServer("Request to back book to library with ID: " + selectedBorrow.getIdborrow());
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("SUCCESSFULLY");
-                alert.setHeaderText("BACK BOOK");
-                alert.setContentText("You request back book successfully");
-                alert.show();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("INFORM");
-                alert.setHeaderText("CONFLICT");
-                alert.setContentText("You have already sent a request to back book to our");
-                alert.show();
-            }
+
+
+                if (borrowDataDAO.checkRequestBack(bookId)) {
+                    if(borrowDataDAO.checkExpiration(loginController.usernameLogin, bookId) != 0) {
+
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("INFORM");
+                        alert.setHeaderText("You had expiration");
+                        alert.setContentText("You have to pay for us: " + borrowDataDAO.checkExpiration(loginController.usernameLogin, bookId) + "VNĐ");
+
+                        alert.show();
+
+                    }
+                    borrowDataDAO.backBook(userDataDAO.getUserName(loginController.usernameLogin), bookId, borrowDataDAO.findNameBook(bookId));
+                    sendMessageToServer("Request to back book to library with ID: " + selectedBorrow.getIdborrow());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("SUCCESSFULLY");
+                    alert.setHeaderText("BACK BOOK");
+                    alert.setContentText("You request back book successfully");
+                    alert.show();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("INFORM");
+                    alert.setHeaderText("CONFLICT");
+                    alert.setContentText("You have already sent a request to back book to our");
+                    alert.show();
+
+                }
+
+
         } else {
             // Show an error message or handle the case where no row is selected
             System.err.println("No row selected in the table.");
@@ -310,7 +327,7 @@ public class dashboardController implements Initializable {
             int newIdBorrow = borrowDataDAO.insertBookBorrow(loginController.usernameLogin, bookIdInt);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("SUCCESSFULLY");
-            alert.setHeaderText("BORROW");
+            alert.setHeaderText("You have to return book on:" + LocalDateTime.now().plusDays(7));
             alert.setContentText("Borrowed " + newIdBorrow + " successfully");
             alert.show();
 

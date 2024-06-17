@@ -135,7 +135,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="layout_Home" layoutX="-0.8" prefHeight="640.0" prefWidth="1086.0" styleClass="main-background" stylesheets="@../../../../css/dashboard.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="layout_Home" layoutX="-0.8" prefHeight="640.0" prefWidth="1086.0" styleClass="main-background" stylesheets="@../../../../css/dashboard.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="23.0" layoutY="18.0" text="Browse" textFill="WHITE">
                      <font>
@@ -171,7 +171,7 @@
                </children>
             </AnchorPane>
 
-            <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="layout_Borrow" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
                <children>
                   <AnchorPane layoutX="194.0" layoutY="83.0" prefHeight="567.0" prefWidth="770.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20px;">
@@ -181,9 +181,9 @@
                      <children>
                         <TableView fx:id="borrowListTable" layoutX="39.0" layoutY="79.0" prefHeight="453.0" prefWidth="692.0" stylesheets="@../../../../css/dashboard.css" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="79.0">
                            <columns>
-                              <TableColumn fx:id="idborrow" prefWidth="164.2667236328125" text="ID BORROW" />
-                              <TableColumn fx:id="bookId" prefWidth="199.73333740234375" text="BOOK ID" />
-                              <TableColumn fx:id="databorrow" prefWidth="246.66659545898438" text="BORROW DATE" />
+                              <TableColumn fx:id="idborrow" prefWidth="149.6000091433525" text="ID BORROW" />
+                              <TableColumn fx:id="bookId" prefWidth="237.5999298095703" text="BOOK ID" />
+                              <TableColumn fx:id="databorrow" prefWidth="203.20001220703125" text="BORROW DATE" />
                            </columns>
                         </TableView>
                         <TextField layoutX="39.0" layoutY="25.0" prefHeight="30.0" prefWidth="241.0" promptText="Search" styleClass="search" stylesheets="@../../../../css/dashboard.css">
@@ -203,7 +203,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="layout_update" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="layout_update" prefHeight="733.3333333333334" prefWidth="1157.3333333333333" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <AnchorPane layoutX="323.0" layoutY="87.0" prefHeight="559.0" prefWidth="511.0" style="-fx-background-color: #1a1a1a; -fx-background-radius: 20px;">
                      <children>

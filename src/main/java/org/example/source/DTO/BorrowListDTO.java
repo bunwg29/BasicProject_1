@@ -9,6 +9,14 @@ public class BorrowListDTO {
     private Timestamp dateBorrow;
     private String userName;
     private String bookName;
+    private Timestamp dayEx;
+
+    public Timestamp getDayEx() {
+        return dayEx;
+    }
+    public void setDayEx(Timestamp dayEx) {
+        this.dayEx = dayEx;
+    }
 
     public int getIdBorrow() {
         return idBorrow;

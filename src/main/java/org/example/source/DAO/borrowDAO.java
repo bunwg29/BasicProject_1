@@ -42,4 +42,6 @@ public interface borrowDAO {
 
     // Method use for insert return book list when user finish process return book
     void inserttoBackListTotal(int idborrow, String usernameLogin, int bookId, String bookName);
+
+    public long checkExpiration(String iduser, int bookId);
 }

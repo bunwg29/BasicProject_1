@@ -8,18 +8,9 @@ public class BackBookDTO {
     private int bookId;
     private String bookName;
     private Timestamp dateBack;
-
     // Constructors
     public BackBookDTO() {
         // Default constructor
-    }
-
-    public BackBookDTO(int borrowId, String name, int bookId, String bookName, Timestamp dateBack) {
-        this.borrowId = borrowId;
-        this.name = name;
-        this.bookId = bookId;
-        this.bookName = bookName;
-        this.dateBack = dateBack;
     }
 
     // Getters and Setters

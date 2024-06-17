@@ -1,6 +1,7 @@
 package org.example.source.model;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 
@@ -9,6 +10,15 @@ public class borrowModel {
     private String iduser;
     private String bookId;
     private Timestamp databorrow;
+    private Timestamp dateExpiration;
+
+    public borrowModel(int idborrow, String iduser, String bookId, Timestamp databorrow, Timestamp dateExpiration) {
+        this.idborrow = idborrow;
+        this.iduser = iduser;
+        this.bookId = bookId;
+        this.databorrow = databorrow;
+        this.dateExpiration = dateExpiration;
+    }
 
     public borrowModel() {}
     public borrowModel(int idborrow, String iduser, String bookId, Timestamp databorrow) {
@@ -17,6 +27,8 @@ public class borrowModel {
         this.bookId = bookId;
         this.databorrow = databorrow;
     }
+
+
 
     public int getIdborrow() {
         return idborrow;

@@ -10,6 +10,7 @@ import org.example.source.model.borrowModel;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,10 @@ public class borrowDataDAO implements borrowDAO {
 
     @Override
     public int insertBookBorrow(String iduser, int bookId) {
-        String insertSql = "INSERT INTO borrowlist (iduser, bookId, databorrow) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO borrowlist (iduser, bookId, databorrow, dayEx) VALUES (?, ?, ?, ?)";
         String updateSql = "UPDATE programmingBook SET bookQuantity = bookQuantity - 1 WHERE bookId = ?";
         LocalDateTime dateBorrow = LocalDateTime.now();
+        LocalDateTime dateEx = LocalDateTime.now().plusDays(7);
         try (Connection con = connectDatabase.getConnection();
              PreparedStatement insertPs = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement updatePs = con.prepareStatement(updateSql)) {
@@ -33,7 +35,7 @@ public class borrowDataDAO implements borrowDAO {
                 insertPs.setString(1, iduser);
                 insertPs.setInt(2, bookId);
                 insertPs.setTimestamp(3, Timestamp.valueOf(dateBorrow));
-
+                insertPs.setTimestamp(4, Timestamp.valueOf(dateEx));
                 insertPs.executeUpdate();
 
                 updatePs.setInt(1, bookId);
@@ -64,46 +66,23 @@ public class borrowDataDAO implements borrowDAO {
     }
 
     @Override
-    public ObservableList<borrowModel> listBorrow(String iduserr) {
-        borrowModels.clear();
-        try (Connection con = connectDatabase.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT * FROM borrowlist WHERE iduser = ?")) {
-            ps.setString(1, iduserr);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int idborrow = rs.getInt("idborrow");
-                String iduser = rs.getString("iduser");
-                String bookId = rs.getString("bookId");
-                Timestamp databorrow = rs.getTimestamp("databorrow");
-                borrowModels.add(new borrowModel(idborrow, iduser, bookId, databorrow));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return borrowModels;
-    }
-
-    @Override
     public void backBook(String name, int bookId, String bookName) {
         String sql = "INSERT INTO backBook (userName, bookId, bookName, dateBack) VALUES (?, ?, ?, ?)";
-        LocalDateTime dateBack = LocalDateTime.now().plusDays(1);
+        LocalDateTime dateBack = LocalDateTime.now().plusDays(1); // Không cộng thêm 1 ngày nữa
+
         try (Connection conn = connectDatabase.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql);){
 
             pstmt.setString(1, name);
             pstmt.setInt(2, bookId);
             pstmt.setString(3, bookName);
             pstmt.setTimestamp(4, Timestamp.valueOf(dateBack));
-
             pstmt.executeUpdate();
-
-            System.out.println("Insert to database");
 
         } catch (SQLException e) {
             System.err.println("Error when insert data: " + e.getMessage());
         }
     }
-
     @Override
     public String findNameBook(int bookId) {
         StringBuilder bookName = new StringBuilder();
@@ -174,13 +153,13 @@ public class borrowDataDAO implements borrowDAO {
                 borrowListItem.setIdBorrow(resultSet.getInt("idborrow"));
                 borrowListItem.setIdUser(resultSet.getString("iduser")); // Assuming iduser in borrowlist is actually username (String)
                 borrowListItem.setBookId(resultSet.getInt("bookId"));
-                borrowListItem.setDateBorrow(resultSet.getTimestamp("databorrow"));
                 borrowListItem.setUserName(resultSet.getString("userName"));
                 borrowListItem.setBookName(resultSet.getString("bookName"));
-
+                // Set the dayEx value
+                borrowListItem.setDayEx(resultSet.getTimestamp("dayEx"));
+                borrowListItem.setDateBorrow(resultSet.getTimestamp("databorrow"));
                 borrowList.add(borrowListItem);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -256,9 +235,29 @@ public class borrowDataDAO implements borrowDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle the exception appropriately (e.g., throw a custom exception)
         }
         return data;
+    }
+    @Override
+    public ObservableList<borrowModel> listBorrow(String iduserr) {
+        borrowModels.clear();
+        try (Connection con = connectDatabase.getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM borrowlist WHERE iduser = ?")) {
+            ps.setString(1, iduserr);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int idborrow = rs.getInt("idborrow");
+                String iduser = rs.getString("iduser");
+                String bookId = rs.getString("bookId");
+                Timestamp databorrow = rs.getTimestamp("databorrow");
+                borrowModels.add(new borrowModel(idborrow, iduser, bookId, databorrow));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return borrowModels;
     }
 
     @Override
@@ -295,6 +294,34 @@ public class borrowDataDAO implements borrowDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public long checkExpiration(String iduser, int bookId) {
+        long taxes = 0;
+        LocalDateTime now = LocalDateTime.now();
+        String sql = "SELECT dayEx FROM borrowlist WHERE iduser = ? AND bookId = ?";
+        try (Connection con = connectDatabase.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, iduser);
+            ps.setInt(2, bookId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Timestamp dayExTimestamp = rs.getTimestamp("dayEx");
+                LocalDateTime dayExDateTime = dayExTimestamp.toLocalDateTime();
+
+                if (dayExDateTime.isBefore(now)) {
+                    long daysBetween = ChronoUnit.DAYS.between(dayExDateTime, now);
+                    taxes = daysBetween * 10000;
+                    System.out.println("This book expires in " + daysBetween + " days.");
+                } else if (dayExDateTime.isAfter(now)) {
+                    taxes = 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return taxes;
     }
 }
 

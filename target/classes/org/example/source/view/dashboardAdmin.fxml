@@ -173,12 +173,15 @@
                         </Label>
                         <TableView fx:id="borrowlist_table" layoutX="32.0" layoutY="103.0" prefHeight="533.0" prefWidth="1018.0" stylesheets="@../../../../css/dashboard.css">
                            <columns>
-                              <TableColumn fx:id="idborrow_col" prefWidth="98.40003204345703" text="ID BOROW" />
-                              <TableColumn fx:id="iduser_col" minWidth="0.0" prefWidth="102.93331909179688" text="ID USER" />
-                              <TableColumn fx:id="bookid_col" prefWidth="111.46661376953125" text="BOOK ID" />
-                              <TableColumn fx:id="dateborrow_col" prefWidth="193.86666870117188" text="DATE BORROW" />
-                              <TableColumn fx:id="username_col" prefWidth="207.9998779296875" text="NAME USER" />
-                              <TableColumn fx:id="bookname_col" prefWidth="207.9998779296875" text="BOOK NAME" />
+                              <TableColumn fx:id="idborrow_col" prefWidth="89.60001373291016" text="ID BOROW" />
+                              <TableColumn fx:id="iduser_col" minWidth="0.0" prefWidth="96.0" text="ID USER" />
+                              <TableColumn fx:id="bookid_col" prefWidth="129.60003662109375" text="BOOK ID" />
+                              <TableColumn fx:id="dateborrow_col" prefWidth="193.86666870117188" text="DATE BORROW" visible="false" />
+                              <TableColumn fx:id="username_col" prefWidth="155.99996948242188" text="NAME USER" />
+                              <TableColumn fx:id="bookname_col" prefWidth="115.199951171875" text="BOOK NAME" />
+                              <TableColumn fx:id="dayRealBorrow" prefWidth="157.60003662109375" text="BORROW DAY" visible="false" />
+                              <TableColumn fx:id="dayExpiration" prefWidth="157.60003662109375" text="EXPIRATION DAY" />
+                              <TableColumn fx:id="dayBorrow" prefWidth="157.60003662109375" text="BORROW DATE" />
                            </columns>
                         </TableView>
                      </children>
@@ -193,10 +196,14 @@
                   <TableView fx:id="backlist_table" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
                      <columns>
                         <TableColumn fx:id="idback_col" prefWidth="98.40003204345703" text="ID BOROW" />
-                        <TableColumn fx:id="usernameback_col" minWidth="0.0" prefWidth="190.40005493164062" text="NAME USER" />
-                        <TableColumn fx:id="bookidback_col" prefWidth="137.5999755859375" text="BOOK ID" />
-                        <TableColumn fx:id="booknameback_col" prefWidth="227.19998168945312" text="BOOK NAME" />
-                        <TableColumn fx:id="dateex_col" prefWidth="271.99993896484375" text="DATABACK EXPIRATION" />
+                        <TableColumn fx:id="usernameback_col" minWidth="0.0" prefWidth="198.13327026367188" text="NAME USER" />
+                        <TableColumn fx:id="bookidback_col" prefWidth="110.40008544921875" text="BOOK ID" />
+                        <TableColumn fx:id="booknameback_col" prefWidth="155.19985961914062" text="BOOK NAME" />
+                        <TableColumn fx:id="dateex_col" prefWidth="174.39996337890625" text="DATABACK EXPIRATION" visible="false" />
+                        <TableColumn fx:id="dayEx" prefWidth="190.4000244140625" text="DATABACK EXPIRATION" visible="false" />
+                        <TableColumn fx:id="dayExBook" prefWidth="216.0001220703125" text="DATE BACK" visible="false" />
+                        <TableColumn fx:id="dateReturnBook" prefWidth="155.19985961914062" text="RETURN DATE" visible="false" />
+                        <TableColumn fx:id="dateReturnBook" prefWidth="155.19985961914062" text="RETURN DATE" />
                      </columns>
                   </TableView>
                   <Label layoutX="82.0" prefHeight="42.0" prefWidth="301.0" text="LIST OF REQUEST RETURN BOOK">
