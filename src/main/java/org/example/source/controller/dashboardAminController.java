@@ -36,6 +36,8 @@ public class dashboardAminController implements Initializable {
     private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 8080;
     // Variables in dashboard.fxml file to connect between view and controller
+
+    // FXML Variable for borrow list TABLE
     @FXML
     private TableView<BorrowListDTO> borrowlist_table;
     @FXML
@@ -53,6 +55,7 @@ public class dashboardAminController implements Initializable {
     @FXML
     private TableColumn<BorrowListDTO, Timestamp> dayBorrow;
 
+    // FXML Variable for back list TABLE
     @FXML
     private TableView<BackBookDTO> backlist_table;
     @FXML
@@ -64,7 +67,44 @@ public class dashboardAminController implements Initializable {
     @FXML
     private TableColumn<BackBookDTO, String> booknameback_col; // Use BackBookDTO
     @FXML
-    private TableColumn<BackBookDTO, Timestamp> dateReturnBook;
+    private TableColumn<BackBookDTO, Timestamp> date_ReturnEx;
+
+    // FXML Variable for overdue list TABLE
+    @FXML
+    private AnchorPane overdue_Layout_1;
+    @FXML
+    private TableView<BorrowListDTO> overdue_List;
+    @FXML
+    private TableColumn<BorrowListDTO, Integer> id_Borrow_Overdue;
+    @FXML
+    private TableColumn<BorrowListDTO, String> username_Overdue;
+    @FXML
+    private TableColumn<BorrowListDTO, Integer> bookid_Overdue;
+    @FXML
+    private TableColumn<BorrowListDTO, Timestamp> borrow_Date_Overdue;
+    @FXML
+    private TableColumn<BorrowListDTO, Timestamp> expiration_Date_Overdue;
+    @FXML
+    private TableColumn<BorrowListDTO, Integer> tax_Overdue_1;
+
+    // FXML Variable for overdue list TABLE when user request back book but not return date exactly
+    @FXML
+    private AnchorPane overdue_Layout_11;
+    @FXML
+    private TableView<BackBookDTO> overdue_List1;
+    @FXML
+    private TableColumn<BackBookDTO, Integer> id_Borrow_Overdue1;
+    @FXML
+    private TableColumn<BackBookDTO, String> username_Overdue1;
+    @FXML
+    private TableColumn<BackBookDTO, Integer> bookid_Overdue1;
+    @FXML
+    private TableColumn<BackBookDTO, String> bookname_Overdue_1;
+    @FXML
+    private TableColumn<BackBookDTO, Timestamp> expiration_Date_Overdue1;
+    @FXML
+    private TableColumn<BackBookDTO, Integer> tax_Overdue_11;
+
     @FXML
     private AnchorPane borrowlist_layout;
     @FXML
@@ -95,13 +135,19 @@ public class dashboardAminController implements Initializable {
     private Button button_export_return;
     @FXML
     private Button button_signout;
+    @FXML
+    private Button overdue_Button_1;
+    @FXML
+    private Button overdue_Button_2;
 
     // Variables use for handle data in database
     private borrowDataDAO borrowDataDAO;
     private bookDataDAO bookDataDAO;
     // Variables use for support display data from database on table in .fxml file
     private final ObservableList<BorrowListDTO> borrowListData = FXCollections.observableArrayList();
-    private final ObservableList<BackBookDTO> backBookData = FXCollections.observableArrayList(); // ObservableList for backBook data
+    private final ObservableList<BorrowListDTO> overdue_Book_Firstlist = FXCollections.observableArrayList();// ObservableList for backBook data
+    private final ObservableList<BackBookDTO> backBookData = FXCollections.observableArrayList();
+    private final ObservableList<BackBookDTO> overdue_BackBook = FXCollections.observableArrayList();
     private Socket clientSocket;
 
     // method use for check connection usually in dashboard in view package to decide display dashboard
@@ -208,6 +254,8 @@ public class dashboardAminController implements Initializable {
                 borrowlist_layout.setVisible(true);
                 backlist_layout.setVisible(false);
                 services_layout.setVisible(false);
+                overdue_Layout_1.setVisible(false);
+                overdue_Layout_11.setVisible(false);
                 borrowListData.clear();
                 borrowListData.addAll(borrowDataDAO.getBorrowListData());
                 initTableView();
@@ -223,6 +271,8 @@ public class dashboardAminController implements Initializable {
                 borrowlist_layout.setVisible(false);
                 backlist_layout.setVisible(true);
                 services_layout.setVisible(false);
+                overdue_Layout_1.setVisible(false);
+                overdue_Layout_11.setVisible(false);
                 backBookData.clear();
                 backBookData.addAll(borrowDataDAO.getBackBookData());
                 initTableBackView();
@@ -237,6 +287,8 @@ public class dashboardAminController implements Initializable {
                 borrowlist_layout.setVisible(false);
                 backlist_layout.setVisible(false);
                 services_layout.setVisible(true);
+                overdue_Layout_1.setVisible(false);
+                overdue_Layout_11.setVisible(false);
             }
         });
 
@@ -341,6 +393,33 @@ public class dashboardAminController implements Initializable {
                 currentStage.close();
             }
         });
+
+        overdue_Button_1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                borrowlist_layout.setVisible(false);
+                backlist_layout.setVisible(false);
+                services_layout.setVisible(false);
+                overdue_Layout_1.setVisible(true);
+                overdue_Layout_11.setVisible(false);
+                overdue_Book_Firstlist.clear();
+                overdue_Book_Firstlist.addAll(borrowDataDAO.getOverdueList1());
+                initOverdueTableView1();
+            }
+        });
+        overdue_Button_2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                borrowlist_layout.setVisible(false);
+                backlist_layout.setVisible(false);
+                services_layout.setVisible(false);
+                overdue_Layout_1.setVisible(false);
+                overdue_Layout_11.setVisible(true);
+                overdue_BackBook.clear();
+                overdue_BackBook.addAll(borrowDataDAO.getOverdueList2());
+                initTableBackOverdueView();
+            }
+        });
     }
 
     // Method use for add data in to table list of borrow book
@@ -353,6 +432,35 @@ public class dashboardAminController implements Initializable {
         dayExpiration.setCellValueFactory(new PropertyValueFactory<>("dayEx"));
         dayBorrow.setCellValueFactory(new PropertyValueFactory<>("dateBorrow"));
         borrowlist_table.setItems(borrowListData);
+    }
+
+    // Method use for add data in to table list of return book
+    private void initTableBackView() {
+        idback_col.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
+        usernameback_col.setCellValueFactory(new PropertyValueFactory<>("name"));
+        bookidback_col.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        booknameback_col.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        date_ReturnEx.setCellValueFactory(new PropertyValueFactory<>("dateBack"));
+        backlist_table.setItems(backBookData);
+    }
+
+    private void initTableBackOverdueView() {
+        id_Borrow_Overdue1.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
+        username_Overdue1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        bookid_Overdue1.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        bookname_Overdue_1.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        expiration_Date_Overdue1.setCellValueFactory(new PropertyValueFactory<>("dateBack"));
+        tax_Overdue_11.setCellValueFactory(new PropertyValueFactory<>("taxes_Late"));
+        overdue_List1.setItems(overdue_BackBook);
+    }
+    private void initOverdueTableView1() {
+        id_Borrow_Overdue.setCellValueFactory(new PropertyValueFactory<>("idBorrow"));
+        username_Overdue.setCellValueFactory(new PropertyValueFactory<>("idUser"));
+        bookid_Overdue.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        borrow_Date_Overdue.setCellValueFactory(new PropertyValueFactory<>("dateBorrow"));
+        expiration_Date_Overdue.setCellValueFactory(new PropertyValueFactory<>("dayEx"));
+        tax_Overdue_1.setCellValueFactory(new PropertyValueFactory<>("overduetax"));
+        overdue_List.setItems(overdue_Book_Firstlist);
     }
 
     // Handle between app and database with borrow book list
@@ -375,15 +483,7 @@ public class dashboardAminController implements Initializable {
         }
     }
 
-    // Method use for add data in to table list of return book
-    private void initTableBackView() {
-        idback_col.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
-        usernameback_col.setCellValueFactory(new PropertyValueFactory<>("name"));
-        bookidback_col.setCellValueFactory(new PropertyValueFactory<>("bookId"));
-        booknameback_col.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-        dateReturnBook.setCellValueFactory(new PropertyValueFactory<>("dateBack"));
-        backlist_table.setItems(backBookData);
-    }
+
 
     // Handle between app and database with return book list
     private void handleBackBookAction(ActionEvent event) {
@@ -404,4 +504,6 @@ public class dashboardAminController implements Initializable {
             System.err.println("No row selected in backlist_table.");
         }
     }
+
+
 }

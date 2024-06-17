@@ -8,6 +8,7 @@ public class BackBookDTO {
     private int bookId;
     private String bookName;
     private Timestamp dateBack;
+    private int taxes_Late;
     // Constructors
     public BackBookDTO() {
         // Default constructor
@@ -53,5 +54,13 @@ public class BackBookDTO {
 
     public void setDateBack(Timestamp dateBack) {
         this.dateBack = dateBack;
+    }
+
+    public int getTaxes_Late() {
+        return taxes_Late;
+    }
+
+    public void setTaxes_Late(int taxes_Late) {
+        this.taxes_Late = taxes_Late;
     }
 }

@@ -44,4 +44,7 @@ public interface borrowDAO {
     void inserttoBackListTotal(int idborrow, String usernameLogin, int bookId, String bookName);
 
     public long checkExpiration(String iduser, int bookId);
+
+    public ObservableList<BorrowListDTO> getOverdueList1();
+    public ObservableList<BackBookDTO> getOverdueList2();
 }

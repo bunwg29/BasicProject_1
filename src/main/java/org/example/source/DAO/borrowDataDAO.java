@@ -217,12 +217,12 @@ public class borrowDataDAO implements borrowDAO {
     @Override
     public ObservableList<BackBookDTO> getBackBookData() {
         ObservableList<BackBookDTO> data = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM backBook"; // SQL query to retrieve data
+        String sql = "SELECT borrowId, username, bookId, bookName, dateBack FROM backBook"; // SQL query to retrieve data
 
         try (Connection connection = connectDatabase.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
             ResultSet resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
                 BackBookDTO backBook = new BackBookDTO();
                 backBook.setBorrowId(resultSet.getInt("borrowId"));
@@ -322,6 +322,65 @@ public class borrowDataDAO implements borrowDAO {
             e.printStackTrace();
         }
         return taxes;
+    }
+
+    @Override
+    public ObservableList<BorrowListDTO> getOverdueList1() {
+        ObservableList<BorrowListDTO> data = FXCollections.observableArrayList();
+        String sql = "SELECT " +
+                "idborrow, " +
+                "iduser, " +
+                "bookId, " +
+                "databorrow, " +
+                "dayEx, " +
+                "DATEDIFF(NOW(), dayEx) AS overdue_days " +
+                "FROM borrowlist " +
+                "WHERE dayEx < NOW();";
+
+        try (Connection connection = connectDatabase.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                BorrowListDTO borrowListDTO = new BorrowListDTO();
+                borrowListDTO.setIdBorrow(resultSet.getInt("idborrow"));
+                borrowListDTO.setIdUser(resultSet.getString("iduser"));
+                borrowListDTO.setBookId(resultSet.getInt("bookId"));
+                borrowListDTO.setDateBorrow(resultSet.getTimestamp("databorrow"));
+                borrowListDTO.setDayEx(resultSet.getTimestamp("dayEx"));
+                borrowListDTO.setOverduetax(resultSet.getInt("overdue_days") * 20000);
+                data.add(borrowListDTO);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+    @Override
+    public ObservableList<BackBookDTO> getOverdueList2() {
+        ObservableList<BackBookDTO> data = FXCollections.observableArrayList();
+        String sql = "SELECT *, DATEDIFF(NOW(), dateBack) AS overdue_days FROM backBook WHERE dateBack < NOW()";
+
+        try (Connection connection = connectDatabase.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                BackBookDTO backBook = new BackBookDTO();
+                backBook.setBorrowId(rs.getInt("borrowId"));
+                backBook.setName(rs.getString("username"));
+                backBook.setBookId(rs.getInt("bookId"));
+                backBook.setBookName(rs.getString("bookName"));
+                backBook.setDateBack(rs.getTimestamp("dateBack"));
+                backBook.setTaxes_Late(rs.getInt("overdue_days") * 30000);
+                data.add(backBook);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }
 

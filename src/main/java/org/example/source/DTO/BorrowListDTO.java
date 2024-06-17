@@ -10,6 +10,7 @@ public class BorrowListDTO {
     private String userName;
     private String bookName;
     private Timestamp dayEx;
+    private int overduetax;
 
     public Timestamp getDayEx() {
         return dayEx;
@@ -64,5 +65,13 @@ public class BorrowListDTO {
 
     public void setBookName(String bookName) {
         this.bookName = bookName;
+    }
+
+    public int getOverduetax() {
+        return overduetax;
+    }
+
+    public void setOverduetax(int overduetax) {
+        this.overduetax = overduetax;
     }
 }

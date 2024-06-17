@@ -121,7 +121,35 @@
                   <Separator prefWidth="200.0" />
                </children>
             </VBox>
-            <VBox prefHeight="210.0" prefWidth="250.0">
+            <VBox prefHeight="96.0" prefWidth="250.0">
+               <children>
+                  <Button fx:id="overdue_Button_1" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="OVERDUE LIST 1" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/expired.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="overdue_Button_2" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="OVERDUE LIST 2" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../image/expired.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox prefHeight="96.0" prefWidth="250.0">
                <children>
                   <Button fx:id="button_export_borrow" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="transparent" stylesheets="@../../../../css/dashboard.css" text="Export Borrow List" textFill="WHITE">
                      <graphic>
@@ -147,8 +175,9 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </Button>
-               </children></VBox>
-            <VBox prefHeight="185.0" prefWidth="250.0" stylesheets="@../../../../css/dashboard.css">
+               </children>
+            </VBox>
+            <VBox prefHeight="90.0" prefWidth="250.0" stylesheets="@../../../../css/dashboard.css">
                <children>
                   <VBox alignment="CENTER" prefHeight="78.0" prefWidth="250.0">
                      <children>
@@ -191,19 +220,18 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" stylesheets="@../../../../css/dashboard.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="backlist_layout" prefHeight="733.6" prefWidth="1156.8" stylesheets="@../../../../css/dashboard.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TableView fx:id="backlist_table" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
                      <columns>
                         <TableColumn fx:id="idback_col" prefWidth="98.40003204345703" text="ID BOROW" />
-                        <TableColumn fx:id="usernameback_col" minWidth="0.0" prefWidth="198.13327026367188" text="NAME USER" />
+                        <TableColumn fx:id="usernameback_col" minWidth="0.0" prefWidth="220.0" text="NAME USER" />
                         <TableColumn fx:id="bookidback_col" prefWidth="110.40008544921875" text="BOOK ID" />
-                        <TableColumn fx:id="booknameback_col" prefWidth="155.19985961914062" text="BOOK NAME" />
+                        <TableColumn fx:id="booknameback_col" prefWidth="200.0" text="BOOK NAME" />
                         <TableColumn fx:id="dateex_col" prefWidth="174.39996337890625" text="DATABACK EXPIRATION" visible="false" />
                         <TableColumn fx:id="dayEx" prefWidth="190.4000244140625" text="DATABACK EXPIRATION" visible="false" />
                         <TableColumn fx:id="dayExBook" prefWidth="216.0001220703125" text="DATE BACK" visible="false" />
-                        <TableColumn fx:id="dateReturnBook" prefWidth="155.19985961914062" text="RETURN DATE" visible="false" />
-                        <TableColumn fx:id="dateReturnBook" prefWidth="155.19985961914062" text="RETURN DATE" />
+                        <TableColumn fx:id="date_ReturnEx" prefWidth="200.0" text="RETURN DATE EX" />
                      </columns>
                   </TableView>
                   <Label layoutX="82.0" prefHeight="42.0" prefWidth="301.0" text="LIST OF REQUEST RETURN BOOK">
@@ -279,6 +307,52 @@
                         </Label>
                      </children>
                   </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="overdue_Layout_1" layoutX="10.0" layoutY="10.0" prefHeight="733.6" prefWidth="1156.8" stylesheets="@../../../../css/dashboard.css" visible="false">
+               <children>
+                  <TableView fx:id="overdue_List" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
+                     <columns>
+                        <TableColumn fx:id="id_Borrow_Overdue" prefWidth="98.40003204345703" text="ID BOROW" />
+                        <TableColumn fx:id="username_Overdue" minWidth="0.0" prefWidth="213.59996032714844" text="USERNAME" />
+                        <TableColumn fx:id="bookid_Overdue" prefWidth="160.0" text="BOOK ID" />
+                        <TableColumn fx:id="borrow_Date_Overdue" prefWidth="180.0" text="BORROW DATE" />
+                        <TableColumn fx:id="dateex_col1" prefWidth="174.39996337890625" text="DATABACK EXPIRATION" visible="false" />
+                        <TableColumn fx:id="dayEx1" prefWidth="190.4000244140625" text="DATABACK EXPIRATION" visible="false" />
+                        <TableColumn fx:id="dayExBook1" prefWidth="216.0001220703125" text="DATE BACK" visible="false" />
+                        <TableColumn fx:id="dateReturnBook" prefWidth="155.19985961914062" text="RETURN DATE" visible="false" />
+                        <TableColumn fx:id="expiration_Date_Overdue" prefWidth="180.0" text="EXPIRATION DATE" />
+                        <TableColumn fx:id="tax_Overdue_1" prefWidth="184.79996337890623" text="TAXES" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="82.0" prefHeight="42.0" prefWidth="301.0" text="OVERDUE BOOK RETURN LIST">
+                     <font>
+                        <Font name="Berlin Sans FB Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="overdue_Layout_11" layoutX="20.0" layoutY="20.0" prefHeight="733.6" prefWidth="1156.8" stylesheets="@../../../../css/dashboard.css">
+               <children>
+                  <TableView fx:id="overdue_List1" layoutX="82.0" layoutY="62.0" prefHeight="533.0" prefWidth="1018.0">
+                     <columns>
+                        <TableColumn fx:id="id_Borrow_Overdue1" prefWidth="98.40003204345703" text="ID BOROW" />
+                        <TableColumn fx:id="username_Overdue1" minWidth="0.0" prefWidth="213.59996032714844" text="NAME" />
+                        <TableColumn fx:id="bookid_Overdue1" prefWidth="160.0" text="BOOK ID" />
+                        <TableColumn fx:id="bookname_Overdue_1" prefWidth="180.0" text="BOOK NAME" />
+                        <TableColumn fx:id="dateex_col11" prefWidth="174.39996337890625" text="DATABACK EXPIRATION" visible="false" />
+                        <TableColumn fx:id="dayEx11" prefWidth="190.4000244140625" text="DATABACK EXPIRATION" visible="false" />
+                        <TableColumn fx:id="dayExBook11" prefWidth="216.0001220703125" text="DATE BACK" visible="false" />
+                        <TableColumn fx:id="dateReturnBook1" prefWidth="155.19985961914062" text="RETURN DATE" visible="false" />
+                        <TableColumn fx:id="expiration_Date_Overdue1" prefWidth="180.0" text="EXPIRATION DATE" />
+                        <TableColumn fx:id="tax_Overdue_11" prefWidth="184.79996337890623" text="TAXES" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="82.0" prefHeight="42.0" prefWidth="301.0" text="OVERDUE RETURN REQUEST LIST">
+                     <font>
+                        <Font name="Berlin Sans FB Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
